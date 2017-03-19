@@ -1,0 +1,36 @@
+****COMMENT****
+09:57:10
+Log Manager Initialized
+***************
+****COMMENT****
+09:57:11
+Render Manager Initialized
+***************
+****COMMENT****
+09:57:11
+Input Manager Initialized
+***************
+****COMMENT****
+09:57:11
+built Animations
+***************
+****COMMENT****
+09:57:11
+built Animations
+***************
+****COMMENT****
+09:57:11
+started rendering
+***************
+****COMMENT****
+09:57:11
+started rendering
+***************
+****COMMENT****
+09:57:34
+Stopped Rendering
+***************
+****COMMENT****
+09:57:34
+Stopped Rendering
+***************
