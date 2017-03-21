@@ -13,7 +13,16 @@ using namespace std;
 void RenderManager::leftJoystickAxisMoved(float north_south, float east_west){	
 	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
 	Ogre::Vector3 current_pos = Scene_node->_getDerivedPosition();
-	current_pos = Ogre::Vector3(current_pos.x + .002*east_west, current_pos.y, current_pos.z +.002*north_south);
+	if(fabs(current_pos.x) <  5.5 && fabs(current_pos.z) < 5.5)
+		current_pos = Ogre::Vector3(current_pos.x + .002*east_west, current_pos.y, current_pos.z +.002*north_south);
+	else if(current_pos.x > 5.5)
+		current_pos.x = 5.4;
+	else if (current_pos.x < -5.5)
+		current_pos.x = -5.4;
+	else if(current_pos.z > 5.5)
+		current_pos.z = 5.4;
+	else if (current_pos.z < -5.5)
+		current_pos.z = -5.4;
 	Scene_node->_setDerivedPosition(current_pos);
 }
 
@@ -36,7 +45,6 @@ void RenderManager::rightJoystickAxisMoved(float north_south, float east_west){
 }
 
 void RenderManager::triggerMoved(float amount){
-	
 }
 
 void RenderManager::processKeyboardInput(std::string key){
@@ -48,11 +56,6 @@ void RenderManager::processKeyboardInput(std::string key){
 	}
 	else{}
 }
-
-//static RenderManager* getRenderManager(){
-//	static RenderManager render_manager(game_manager);
-//	return &render_manager;
-//}
 
 void RenderManager::checkForInput(float time_step){
 	game_manager->checkForInput(time_step);
@@ -230,7 +233,6 @@ void RenderManager::stopRendering(){
 		game_manager->logComment("Stopped Rendering");
 	}
 	delete render_listeners_iter;
-	//render_listener->stopRendering();
 }
 
 Ogre::RenderWindow* RenderManager::getRenderWindow()
