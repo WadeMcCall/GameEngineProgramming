@@ -6,7 +6,7 @@
 	#if !defined ASSERT_LOG
 		#define ASSERT_LOG(expr, msg) if (!expr) \
 										{ \
-											game_manager->logProblem(__FILE__, __LINE__); \
+											game_manager->logProblem(msg, __FILE__, __LINE__); \
 										}
 	#endif
 

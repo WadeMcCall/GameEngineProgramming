@@ -1,5 +1,7 @@
 
-<scene>
+<levels>
+	<level>
+	  <name>level_0</name>
       <camera>
          <name>Camera</name>
          <position>0,3,15</position>
@@ -160,4 +162,5 @@
       </children>
 
    </graph>
-</scene>
+   </level>
+</levels>

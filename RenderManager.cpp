@@ -92,6 +92,106 @@ void RenderManager::init()
 	  viewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
 }
 
+void RenderManager::attachEntity(std::string entity_name_str, std::string entity_mesh_str, std::string entity_material_str, std::string entity_scene_node_name_str){
+	Ogre::Entity* entity = scene_manager->createEntity(entity_name_str, entity_mesh_str);
+	entity->setMaterialName(entity_material_str);
+	Ogre::SceneNode* entity_scene_node = scene_manager->getSceneNode(entity_scene_node_name_str);
+	entity_scene_node->attachObject(entity);
+}
+
+void RenderManager::createSceneNode(std::string child_name_str, std::string parent_name_str){
+	Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+	Ogre::SceneNode* child_scene_node = scene_manager->createSceneNode(child_name_str);
+	if(parent_name_str == "root"){
+		root_scene_node->addChild(child_scene_node);
+	}
+	else{
+		Ogre::SceneNode* parent_scene_node = scene_manager->getSceneNode(parent_name_str);
+		parent_scene_node->addChild(child_scene_node);
+	}
+}
+
+void RenderManager::processScale(float* scale, std::string scene_node_name_str){
+	Ogre::SceneNode* scale_scene_node = scene_manager->getSceneNode(scene_node_name_str);
+	scale_scene_node->scale(scale[0],scale[1],scale[2]);
+}
+
+void RenderManager::processRotation(float* rotation, std::string scene_node_name_str){
+	Ogre::SceneNode* rotation_scene_node = scene_manager->getSceneNode(scene_node_name_str);
+	Ogre::Degree angle(rotation[0]);
+	Ogre::Vector3 axis(rotation[1],rotation[2],rotation[4]);
+	Ogre::Quaternion q(angle, axis);
+	rotation_scene_node->rotate(q);
+}
+
+//Ogre::SceneNode* RenderManager::getSceneNode(std::string scene_node_name){
+//	return scene_manager->getSceneNode(scene_node_name);
+//}
+
+Ogre::SceneManager* RenderManager::getSceneManager(){
+	return scene_manager;
+}
+
+void RenderManager::processTranslation(float* translation, std::string scene_node_name_str){
+	Ogre::SceneNode* translation_scene_node = scene_manager->getSceneNode(scene_node_name_str);
+	translation_scene_node->translate(translation[0],translation[1],translation[2]);
+}
+
+void RenderManager::createLight(std::string light_name, float* light_color, float* light_direction){
+	scene_manager->setAmbientLight(Ogre::ColourValue(.05,.05,.05));
+	Ogre::Light* light = scene_manager->createLight(light_name);
+	light->setType(Ogre::Light::LT_DIRECTIONAL);
+	light->setDiffuseColour(light_color[0],light_color[1],light_color[2]);
+	light->setDirection(Ogre::Vector3(light_direction[0],light_direction[1],light_direction[2]));
+}
+
+void RenderManager::createCamera(std::string camera_name, float* camera_position, float* camera_lookat, float* clip){
+	camera = scene_manager->createCamera(camera_name);
+	viewport->setCamera(camera);
+	
+	float actual_width = Ogre::Real(viewport->getActualWidth());
+	float actual_height = Ogre::Real(viewport->getActualHeight());
+	float aspect_ratio = actual_width/actual_height;
+	camera->setAspectRatio(aspect_ratio);
+	camera->setPosition(Ogre::Vector3(camera_position[0],camera_position[1],camera_position[2]));
+	camera->lookAt(Ogre::Vector3(camera_lookat[0],camera_lookat[1],camera_lookat[2]));
+	camera->setNearClipDistance(clip[0]);
+	camera->setFarClipDistance(clip[1]);
+}
+
+void RenderManager::unloadLevel(std::string level_name){
+	scene_manager->clearScene();
+	viewport->setCamera(NULL);
+	scene_manager->destroyAllCameras();
+	
+	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+	rgm.destroyResourceGroup(level_name);
+}
+
+void RenderManager::loadLevel(std::string level_name){
+	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+	rgm.initialiseResourceGroup(level_name);
+	rgm.loadResourceGroup(level_name, true, true);
+}
+
+void RenderManager::addPathResource(std::string path, std::string level_name){
+	game_manager->logComment("adding path resource from RenderManager");
+	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+	rgm.addResourceLocation(path, "FileSystem", level_name);
+}
+
+void RenderManager::addMeshResource(std::string mesh_file_name, std::string level_name){
+	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+	rgm.declareResource(mesh_file_name, "Mesh", level_name);
+}
+
+void RenderManager::createAnimation(animation_name_str, seconds){
+	Ogre::Animation* animation = scene_manager->createAnimation(animation_name_str, seconds);
+	animation->setInterpolationMode(Ogre::Animation::IM_SPLINE);
+	Ogre::NodeAnimationTrack* track = animation->createNodeTrack(1, animation_node);
+	Ogre::TransformKeyFrame* key_frame;
+}
+
 RenderManager::RenderManager(GameManager* gm)
 {
    game_manager = gm;
@@ -245,111 +345,112 @@ Ogre::SceneManager* RenderManager::getSceneManager()
    return scene_manager;
 }
 
-void RenderManager::parseResourceXML(const char* file_name){
-	std::cout << "here" << endl;
-	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
-	
-	TiXmlDocument doc(file_name);
-	if(!doc.LoadFile()) return;
-	
-	TiXmlElement* levels_element = doc.RootElement();
-	TiXmlElement* level_element = (TiXmlElement*) levels_element->FirstChild("level");
-	
-	while(level_element != NULL){
-		TiXmlElement* name_element = (TiXmlElement*) level_element->FirstChild("name");
-		std::string name_str = name_element->GetText();
-		
-		TiXmlElement* paths_element = (TiXmlElement*) level_element->FirstChild("paths");
-		TiXmlElement* path_element = (TiXmlElement*) paths_element->FirstChild("path");
-		
-		while(path_element != NULL){
-			std::string path_str = path_element->GetText();
-			rgm.addResourceLocation(path_str, "FileSystem", name_str);
-			path_element = (TiXmlElement*) path_element->NextSibling();
-		}
-		
-		TiXmlElement* meshes_element = (TiXmlElement*) level_element->FirstChild("meshes");
-		TiXmlElement* mesh_element = (TiXmlElement*) meshes_element->FirstChild("meshes");
-		
-		while(mesh_element != NULL){
-			std::string mesh_str = mesh_element->GetText();
-			rgm.declareResource(mesh_str, "Mesh", name_str);
-			mesh_element = (TiXmlElement*) mesh_element->NextSibling();
-		}
-		
-		level_element = (TiXmlElement*) levels_element->NextSibling();
-		
-		rgm.initialiseResourceGroup(name_str);
-		rgm.loadResourceGroup(name_str, true,true);
-	}
-}
+//void RenderManager::parseResourceXML(const char* file_name){
+//	std::cout << "here" << endl;
+//	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+//	
+//	TiXmlDocument doc(file_name);
+//	if(!doc.LoadFile()) return;
+//	
+//	TiXmlElement* levels_element = doc.RootElement();
+//	TiXmlElement* level_element = (TiXmlElement*) levels_element->FirstChild("level");
+//	
+//	while(level_element != NULL){
+//		TiXmlElement* name_element = (TiXmlElement*) level_element->FirstChild("name");
+//		std::string name_str = name_element->GetText();
+//		
+//		TiXmlElement* paths_element = (TiXmlElement*) level_element->FirstChild("paths");
+//		TiXmlElement* path_element = (TiXmlElement*) paths_element->FirstChild("path");
+//		
+//		while(path_element != NULL){
+//			std::string path_str = path_element->GetText();
+//			rgm.addResourceLocation(path_str, "FileSystem", name_str);
+//			path_element = (TiXmlElement*) path_element->NextSibling();
+//		}
+//		
+//		TiXmlElement* meshes_element = (TiXmlElement*) level_element->FirstChild("meshes");
+//		TiXmlElement* mesh_element = (TiXmlElement*) meshes_element->FirstChild("meshes");
+//		
+//		while(mesh_element != NULL){
+//			std::string mesh_str = mesh_element->GetText();
+//			rgm.declareResource(mesh_str, "Mesh", name_str);
+//			mesh_element = (TiXmlElement*) mesh_element->NextSibling();
+//		}
+//		
+//		level_element = (TiXmlElement*) levels_element->NextSibling();
+//		
+//		rgm.initialiseResourceGroup(name_str);
+//		rgm.loadResourceGroup(name_str, true,true);
+//	}
+//}
 
 void RenderManager::parseSceneXML(const char* file_name){	
 	TiXmlDocument doc(file_name);
 	if(!doc.LoadFile()) return;
 	
 	TiXmlElement* scene_element = doc.RootElement();
+	TiXmlElement* level_element = scene_element->FirstChildElement("level");
 	
 	TiXmlElement* graph_element = scene_element->FirstChildElement("graph");
 	TiXmlElement* children_element = graph_element->FirstChildElement("children");
 	
 	Ogre::SceneNode* scene_root_node = scene_manager->getRootSceneNode();
-	TiXmlElement* camera_element = scene_element->FirstChildElement("camera");
-	TiXmlElement* camera_name_element = camera_element->FirstChildElement("name");
-	std::string camera_name_str = camera_name_element->GetText();
+	//TiXmlElement* camera_element = scene_element->FirstChildElement("camera");
+	//TiXmlElement* camera_name_element = camera_element->FirstChildElement("name");
+	//std::string camera_name_str = camera_name_element->GetText();
 	
 	
-	camera = scene_manager->createCamera(camera_name_str);
-	viewport->setCamera(camera);
+	//camera = scene_manager->createCamera(camera_name_str);
+	//viewport->setCamera(camera);
 	
-		float actual_width = Ogre::Real(viewport->getActualWidth());
-		float actual_height = Ogre::Real(viewport->getActualHeight());
-		float aspect_ratio = actual_width/actual_height;
-		camera->setAspectRatio(aspect_ratio);
+	//	float actual_width = Ogre::Real(viewport->getActualWidth());
+	//	float actual_height = Ogre::Real(viewport->getActualHeight());
+	//	float aspect_ratio = actual_width/actual_height;
+	//	camera->setAspectRatio(aspect_ratio);
+	//
+	//TiXmlElement* camera_position_element = camera_element->FirstChildElement("position");
+	//std::string camera_position_str = camera_position_element->GetText();
+	//float* camera_values = new float[3];
+	//Utils::parseFloats(camera_position_str, camera_values);
+	//
+	//camera->setPosition(Ogre::Vector3(camera_values[0],camera_values[1],camera_values[2]));
+	//
+	//TiXmlElement* camera_lookat_element = camera_element->FirstChildElement("look-at");
+	//std::string camera_lookat_str = camera_lookat_element->GetText();
+	//Utils::parseFloats(camera_lookat_str, camera_values);
+	//camera->lookAt(Ogre::Vector3(camera_values[0],camera_values[1],camera_values[2]));
+	//
+	//TiXmlElement* camera_clip_element = camera_element->FirstChildElement("clip");
+	//std::string camera_clip_str = camera_clip_element->GetText();
+	//Utils::parseFloats(camera_clip_str, camera_values);
+	//camera->setNearClipDistance(camera_values[0]);
+	//camera->setFarClipDistance(camera_values[1]);
 	
-	TiXmlElement* camera_position_element = camera_element->FirstChildElement("position");
-	std::string camera_position_str = camera_position_element->GetText();
-	float* camera_values = new float[3];
-	Utils::parseFloats(camera_position_str, camera_values);
-	
-	camera->setPosition(Ogre::Vector3(camera_values[0],camera_values[1],camera_values[2]));
-	
-	TiXmlElement* camera_lookat_element = camera_element->FirstChildElement("look-at");
-	std::string camera_lookat_str = camera_lookat_element->GetText();
-	Utils::parseFloats(camera_lookat_str, camera_values);
-	camera->lookAt(Ogre::Vector3(camera_values[0],camera_values[1],camera_values[2]));
-	
-	TiXmlElement* camera_clip_element = camera_element->FirstChildElement("clip");
-	std::string camera_clip_str = camera_clip_element->GetText();
-	Utils::parseFloats(camera_clip_str, camera_values);
-	camera->setNearClipDistance(camera_values[0]);
-	camera->setFarClipDistance(camera_values[1]);
-	
-	TiXmlElement* light_element = scene_element->FirstChildElement("light");
-	TiXmlElement* light_name_element = light_element->FirstChildElement("name");
-	std::string light_name_str = light_name_element->GetText();
-	
-	scene_manager->setAmbientLight(Ogre::ColourValue(.05,.05,.05));
-	Ogre::Light* light = scene_manager->createLight(light_name_str);
-	light->setType(Ogre::Light::LT_DIRECTIONAL);
-	
-	TiXmlElement* light_color_element = light_element->FirstChildElement("color");
-	std::string light_color_str = light_color_element->GetText();
-	float* light_values = new float[3];
-	Utils::parseFloats(light_color_str, light_values);
-	light->setDiffuseColour(light_values[0],light_values[1],light_values[2]);
-	
-	TiXmlElement* light_direction_element = light_element->FirstChildElement("direction");
-	std::string light_direction_str = light_direction_element->GetText();
-	Utils::parseFloats(light_direction_str,light_values);
-	light->setDirection(Ogre::Vector3(light_values[0],light_values[1],light_values[2]));
+	//TiXmlElement* light_element = scene_element->FirstChildElement("light");
+	//TiXmlElement* light_name_element = light_element->FirstChildElement("name");
+	//std::string light_name_str = light_name_element->GetText();
+	//
+	//scene_manager->setAmbientLight(Ogre::ColourValue(.05,.05,.05));
+	//Ogre::Light* light = scene_manager->createLight(light_name_str);
+	//light->setType(Ogre::Light::LT_DIRECTIONAL);
+	//
+	//TiXmlElement* light_color_element = light_element->FirstChildElement("color");
+	//std::string light_color_str = light_color_element->GetText();
+	//float* light_values = new float[3];
+	//Utils::parseFloats(light_color_str, light_values);
+	//light->setDiffuseColour(light_values[0],light_values[1],light_values[2]);
+	//
+	//TiXmlElement* light_direction_element = light_element->FirstChildElement("direction");
+	//std::string light_direction_str = light_direction_element->GetText();
+	//Utils::parseFloats(light_direction_str,light_values);
+	//light->setDirection(Ogre::Vector3(light_values[0],light_values[1],light_values[2]));
 	
 	if(children_element!=NULL){
 		processChild(children_element, scene_root_node);
 	}
 	
-	delete[] camera_values;
-	delete[] light_values;
+	//delete[] camera_values;
+	//delete[] light_values;
 }
 
 void RenderManager::processChild(TiXmlElement* children_element, Ogre::SceneNode* parent){

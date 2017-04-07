@@ -4,6 +4,7 @@
 #include <string>
 #include "LogManager.h"
 #include "InputManager.h"
+#include "ResourceManager.h"
 
 class RenderManager;
 
@@ -14,6 +15,7 @@ class GameManager
       RenderManager* render_manager;
 	  LogManager* log_manager;
 	  InputManager* input_manager;
+	  ResourceManager* resource_manager;
 
       GameManager();
       void init();
@@ -33,6 +35,17 @@ class GameManager
       int getRenderWindowHeight();
       size_t getRenderWindowHandle();
 	  std::string getLoadedLevelName();
+	  
+	  void attachEntity(std::string entity_name_str, std::string entity_mesh_str, std::string entity_material_str, std::string entity_scene_node_name_str);	  
+	  void createSceneNode(std::string child_name_str, std::string parent_name_str);	  
+	  void processScale(float* scale, std::string scene_node_name_str);	  
+	  void processRotation(float* rotation, std::string scene_node_name_str);	  
+	  void processTranslation(float* translation, std::string scene_node_name_str);	  
+	  void createLight(std::string light_name, float* light_color, float* light_direction);
+	  void createCamera(std::string camera_name, float* camera_position, float* camera_lookat, float* clip); 
+	  void unloadLevel(std::string level_name);	  
+	  void loadLevel(std::string level_name);	  
+	  void addPathResource(std::string path, std::string level_name);	  
+	  void addMeshResource(std::string mesh_file_name, std::string level_name);
 };
-
 #endif
