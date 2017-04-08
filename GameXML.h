@@ -20,5 +20,6 @@ class GameXML{
 		
 		ListArray<GameResource>* getXMLGameResourcesByLevel(std::string requested_level_name, GameManager* game_manager);
 		void buildXMLScene(std::string level_name, GameManager* game_manager);
+		void buildAnimation(std::string animation_node_str, TiXmlElement* animation_element, GameManager* game_manager);
 };
 #endif

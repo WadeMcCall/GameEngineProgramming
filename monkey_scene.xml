@@ -4,7 +4,7 @@
 	  <name>level_0</name>
       <camera>
          <name>Camera</name>
-         <position>0,3,15</position>
+         <position>0,5,30</position>
          <look-at>0,-1,-1000</look-at>
          <clip>2,50</clip>
       </camera>
@@ -20,7 +20,7 @@
          <child>
             <name>WeirdMan Transform</name>
 
-             <animation>
+            <animation>
                <name>WeirdMan Animation</name>
                <seconds>3.0</seconds>
 
@@ -66,12 +66,12 @@
                    <rotation>1,0,0,0</rotation>
                  </keyframe>
                </keyframes>
-             </animation>
+            </animation>
 
                    
-				<translation>0,1,0</translation>
-				<rotation>90,0,1,0</rotation>
-				<scale>1,1,1</scale>
+			<translation>0,3,0</translation>
+			<rotation>90,0,1,0</rotation>
+			<scale>1,1,1</scale>
 
             <children>
                <child>

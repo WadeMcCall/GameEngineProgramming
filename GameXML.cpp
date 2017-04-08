@@ -3,8 +3,8 @@
 #include "Utils.h"
 #include "PathResource.h"
 #include "MeshResource.h"
-#include "Ogre.h"
 
+#include <vector>
 #include <iostream>
 #include <stdexcept>
 using namespace std;
@@ -62,10 +62,8 @@ void GameXML::buildXMLScene(std::string requested_level_name, GameManager* game_
 	}
 }
 
-//need to remove the OGre stuff if possible and move the scene manager back to render manager
+//need to remove the OGre stuff if possible
 void GameXML::buildAnimation(std::string animation_node_str, TiXmlElement* animation_element, GameManager* game_manager){
-	//Ogre::SceneNode* scene_node = game_manager->getSceneNode(animation_node_str);
-	//Ogre::SceneManager* scene_manager = game_manager->getSceneManager();
 	TiXmlElement* name_element = animation_element->FirstChildElement("name");
 	std:string animation_name_str = name_element->GetText();
 	
@@ -82,9 +80,9 @@ void GameXML::buildAnimation(std::string animation_node_str, TiXmlElement* anima
 	//
 	TiXmlElement* keyframes_element = animation_element->FirstChildElement("keyframes");
 	TiXmlElement* keyframe_element = keyframes_element->FirstChildElement("keyframe");
-	ListArray<std::string>* key_frame_times;		
-	ListArray<std::float*>* key_frame_translate;		
-	ListArray<std::float*>* key_frame_rotate;		
+	vector<float> key_frame_times;		
+	vector<float*> key_frame_translate;		
+	vector<float*> key_frame_rotate;
 	while(keyframe_element != NULL){
 		
 		TiXmlElement* keyframe_time_element = keyframe_element->FirstChildElement("time");
@@ -92,35 +90,38 @@ void GameXML::buildAnimation(std::string animation_node_str, TiXmlElement* anima
 		TiXmlElement* rotate_element = keyframe_element->FirstChildElement("rotation");
 		
 		std::string time_str = keyframe_time_element->GetText();
-		float time = atof(time_str.c_str());
+		float time = (float)atof(time_str.c_str());
+		cout << "time: " << time;
 		
 		float* translate_values = new float[3];
+		float* rotate_values = new float[4];
 		std::string translate_str = translate_element->GetText();
 		Utils::parseFloats(translate_str, translate_values);
 		
 		
 		//key_frame = track->createNodeKeyFrame(time);
 		//key_frame->setTranslate(Ogre::Vector3(translate_values[0],translate_values[1],translate_values[2]));
-		key_frame_time.add(time);
-		key_frame_translate.add(translate_values);
+		cout << endl << "building animation GameXML " << endl;
+		key_frame_times.push_back(time);
+		key_frame_translate.push_back(translate_values);
 		
 		std::string rotate_str = rotate_element->GetText();
-		Utils::parseFloats(rotate_str, translate_values);
+		Utils::parseFloats(rotate_str, rotate_values);
+		key_frame_rotate.push_back(rotate_values);
 		
-		Ogre::Vector3 rotate_axis(translate_values[1],translate_values[2],translate_values[3]);
-		Ogre::Quaternion q1(Ogre::Degree(translate_values[0]), rotate_axis);
-		key_frame->setRotation(q1);
+		//Ogre::Vector3 rotate_axis(translate_values[1],translate_values[2],translate_values[3]);
+		//Ogre::Quaternion q1(Ogre::Degree(translate_values[0]), rotate_axis);
+		//key_frame->setRotation(q1);
 		
 		keyframe_element = keyframe_element->NextSiblingElement("keyframe");
 	}
-	game_manager->createAnimation(animation_name_str, seconds);
+	game_manager->createAnimation(animation_node_str, animation_name_str, seconds, key_frame_times, key_frame_translate, key_frame_rotate);
 	
-	//game_manager->createAnimation(animation_name_str);
-	Ogre::AnimationState* animation_state = scene_manager->createAnimationState(animation_name_str);//***
-	animation_state->setEnabled(true); 
-	animation_state->setLoop(true);
-	
-	game_manager->addAnimationState(animation_state);
+	//Ogre::AnimationState* animation_state = scene_manager->createAnimationState(animation_name_str);//***
+	//animation_state->setEnabled(true); 
+	//animation_state->setLoop(true);
+	//
+	//game_manager->addAnimationState(animation_state);
 	//animation_states->add(animation_state);
 	
 	//game_manager->logComment("built Animations");
@@ -128,7 +129,6 @@ void GameXML::buildAnimation(std::string animation_node_str, TiXmlElement* anima
 
 void GameXML::processChildren(TiXmlElement* children_element, std::string parent_name_string, GameManager* game_manager){
 	if(children_element == NULL) return;
-	game_manager->logComment("processing child of " + parent_name_string);
 	
 	TiXmlElement* child_element = children_element->FirstChildElement("child");
 	while(child_element !=NULL){
@@ -148,12 +148,11 @@ void GameXML::processChildren(TiXmlElement* children_element, std::string parent
 			
 			TiXmlElement* entity_material_element = entity_element->FirstChildElement("material");
 			std::string entity_material_str = entity_material_element->GetText();
-			//game_manager->logComment(entity_material_str);
+			cout << "material " << entity_material_str << endl;
 			
 			game_manager->attachEntity(entity_name_str, entity_mesh_str, entity_material_str, parent_name_string);
 		}
 		if(animation_element != NULL){
-			//std::cout << "animation time!" << std::endl;
 			buildAnimation(child_name_str, animation_element, game_manager);
 		}
 		

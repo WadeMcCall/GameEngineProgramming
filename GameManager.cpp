@@ -1,8 +1,10 @@
 #include "GameManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "ListArray.h"
 #include "Ogre.h"
 
+#include <vector>
 #include <iostream>
 
 void GameManager::keyPressed(std::string key){
@@ -39,20 +41,8 @@ void GameManager::attachEntity(std::string entity_name_str, std::string entity_m
 	render_manager->attachEntity(entity_name_str, entity_mesh_str, entity_material_str, entity_scene_node_name_str);
 }
 
-//Ogre::SceneNode* GameManager::getSceneNode(std::string scene_node_name){
-//	render_manager->getSceneNode(scene_node_name);
-//}
-
-//void GameManager::createAnimation(std::string animation_name_str){
-//	render_manager->createAnimation(animation_name_str);
-//}
-
-Ogre::SceneManager* GameManager::getSceneManager(){
-	return render_manager->getSceneManager();
-}
-
-void GameManager::addAnimationState(Ogre::AnimationState* animation_state){
-	render_manager->addAnimationState(animation_state);
+void GameManager::createAnimation(std::string animation_node_str, std::string animation_name_str, float seconds, std::vector<float> key_frame_times, std::vector<float*> key_frame_translate, std::vector<float*> key_frame_rotate){
+	render_manager->createAnimation(animation_node_str, animation_name_str, seconds, key_frame_times, key_frame_translate, key_frame_rotate);
 }
 
 void GameManager::createSceneNode(std::string child_name_str, std::string parent_name_str){

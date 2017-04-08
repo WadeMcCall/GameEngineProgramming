@@ -1,88 +1,96 @@
 ****COMMENT****
-10:58:28
+22:02:53
 Log Manager Initialized
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 Render Manager Initialized
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 Input Manager Initialized
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 level_0
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 addingPathResource
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 addingpathResource from game manager
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 adding path resource from RenderManager
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 addingPathResource
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 addingpathResource from game manager
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 adding path resource from RenderManager
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 addingMeshResource
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 addingMeshResource
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 building scene XML
 ***************
 ****COMMENT****
-10:58:29
+22:02:54
 processing child of root
 ***************
 ****COMMENT****
-10:58:29
+22:02:55
+built Animations
+***************
+****COMMENT****
+22:02:55
 processing child of WeirdMan Transform
 ***************
 ****COMMENT****
-10:58:29
+22:02:55
 processing child of Monkey Entity
 ***************
 ****COMMENT****
-10:58:29
+22:02:55
+built Animations
+***************
+****COMMENT****
+22:02:55
 processing child of Trampoline Transform
 ***************
 ****COMMENT****
-10:58:29
+22:02:55
 level loaded
 ***************
 ****COMMENT****
-10:58:29
+22:02:55
 started rendering
 ***************
 ****COMMENT****
-10:58:29
+22:02:55
 started rendering
 ***************
 ****COMMENT****
-10:58:30
+22:03:00
 Stopped Rendering
 ***************
 ****COMMENT****
-10:58:30
+22:03:00
 Stopped Rendering
 ***************

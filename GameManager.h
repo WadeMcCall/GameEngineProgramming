@@ -2,6 +2,7 @@
 #define GAME_MANAGER
 
 #include <string>
+#include <vector>
 #include "LogManager.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
@@ -47,5 +48,6 @@ class GameManager
 	  void loadLevel(std::string level_name);	  
 	  void addPathResource(std::string path, std::string level_name);	  
 	  void addMeshResource(std::string mesh_file_name, std::string level_name);
+	  void createAnimation(std::string animation_node_str, std::string animation_name_str, float seconds, std::vector<float> key_frame_times, std::vector<float*> key_frame_translate, std::vector<float*> key_frame_rotate);
 };
 #endif

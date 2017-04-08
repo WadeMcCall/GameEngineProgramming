@@ -4,15 +4,18 @@
 #include "Utils.h"
 #include "AnimationRenderListener.h"
 #include "InputRenderListener.h"
+#include "ListArray.h"
 #include "ListArrayIterator.h"
 #include <math.h>
 
+#include <vector>
 #include <iostream>
 using namespace std;
 
 void RenderManager::leftJoystickAxisMoved(float north_south, float east_west){	
-	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
+	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("WeirdMan Transform");
 	Ogre::Vector3 current_pos = Scene_node->_getDerivedPosition();
+	cout << current_pos.x << " " << current_pos.y << " " << current_pos.z << endl;
 	if(fabs(current_pos.x) <  5.5 && fabs(current_pos.z) < 5.5)
 		current_pos = Ogre::Vector3(current_pos.x + .002*east_west, current_pos.y, current_pos.z +.002*north_south);
 	else if(current_pos.x > 5.5)
@@ -124,14 +127,6 @@ void RenderManager::processRotation(float* rotation, std::string scene_node_name
 	rotation_scene_node->rotate(q);
 }
 
-//Ogre::SceneNode* RenderManager::getSceneNode(std::string scene_node_name){
-//	return scene_manager->getSceneNode(scene_node_name);
-//}
-
-Ogre::SceneManager* RenderManager::getSceneManager(){
-	return scene_manager;
-}
-
 void RenderManager::processTranslation(float* translation, std::string scene_node_name_str){
 	Ogre::SceneNode* translation_scene_node = scene_manager->getSceneNode(scene_node_name_str);
 	translation_scene_node->translate(translation[0],translation[1],translation[2]);
@@ -185,11 +180,33 @@ void RenderManager::addMeshResource(std::string mesh_file_name, std::string leve
 	rgm.declareResource(mesh_file_name, "Mesh", level_name);
 }
 
-void RenderManager::createAnimation(animation_name_str, seconds){
+void RenderManager::createAnimation(std::string animation_node_str, std::string animation_name_str, float seconds, vector<float> key_frame_times, vector<float*> key_frame_translate, vector<float*> key_frame_rotate){
+	Ogre::SceneNode* animation_node = scene_manager->getSceneNode(animation_node_str);
 	Ogre::Animation* animation = scene_manager->createAnimation(animation_name_str, seconds);
 	animation->setInterpolationMode(Ogre::Animation::IM_SPLINE);
 	Ogre::NodeAnimationTrack* track = animation->createNodeTrack(1, animation_node);
 	Ogre::TransformKeyFrame* key_frame;
+	vector<float*>::iterator key_frame_translate_iter = key_frame_translate.begin();
+	vector<float*>::iterator key_frame_rotate_iter = key_frame_rotate.begin();
+	for(vector<float>::iterator key_frame_times_iter = key_frame_times.begin(); key_frame_times_iter != key_frame_times.end();key_frame_times_iter++){
+		float time = *key_frame_times_iter;
+		cout << time << endl;
+		key_frame = track->createNodeKeyFrame(time);
+		float* translate_values = *key_frame_translate_iter;
+		cout << translate_values[0] << " " << translate_values[1] << " " << translate_values[2] << " " << endl;
+		key_frame->setTranslate(Ogre::Vector3(translate_values[0],translate_values[1],translate_values[2]));
+		translate_values = *key_frame_rotate_iter;
+		Ogre::Vector3 rotate_axis(translate_values[1],translate_values[2],translate_values[3]);
+		Ogre::Quaternion q1(Ogre::Degree(translate_values[0]), rotate_axis);
+		key_frame->setRotation(q1);
+		key_frame_rotate_iter++;
+		key_frame_translate_iter++;
+	}
+	Ogre::AnimationState* animation_state = scene_manager->createAnimationState(animation_name_str);
+	animation_state->setEnabled(true); 
+	animation_state->setLoop(true);	
+	animation_states->add(animation_state);	
+	game_manager->logComment("built Animations");
 }
 
 RenderManager::RenderManager(GameManager* gm)
