@@ -1,96 +1,80 @@
 ****COMMENT****
-22:02:53
+11:25:02
 Log Manager Initialized
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 Render Manager Initialized
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 Input Manager Initialized
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 level_0
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 addingPathResource
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 addingpathResource from game manager
 ***************
 ****COMMENT****
-22:02:54
-adding path resource from RenderManager
+11:25:03
+./assets/models
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 addingPathResource
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 addingpathResource from game manager
 ***************
 ****COMMENT****
-22:02:54
-adding path resource from RenderManager
+11:25:03
+./assets/materials/scripts
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 addingMeshResource
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 addingMeshResource
 ***************
 ****COMMENT****
-22:02:54
+11:25:03
 building scene XML
 ***************
 ****COMMENT****
-22:02:54
-processing child of root
-***************
-****COMMENT****
-22:02:55
+11:25:03
 built Animations
 ***************
 ****COMMENT****
-22:02:55
-processing child of WeirdMan Transform
-***************
-****COMMENT****
-22:02:55
-processing child of Monkey Entity
-***************
-****COMMENT****
-22:02:55
+11:25:03
 built Animations
 ***************
 ****COMMENT****
-22:02:55
-processing child of Trampoline Transform
-***************
-****COMMENT****
-22:02:55
+11:25:03
 level loaded
 ***************
 ****COMMENT****
-22:02:55
+11:25:03
 started rendering
 ***************
 ****COMMENT****
-22:02:55
+11:25:03
 started rendering
 ***************
 ****COMMENT****
-22:03:00
+11:25:23
 Stopped Rendering
 ***************
 ****COMMENT****
-22:03:00
+11:25:23
 Stopped Rendering
 ***************

@@ -26,8 +26,8 @@ void ResourceManager::loadLevel(std::string requested_level_name){
 			GameResource* gameResource = game_resource_iter->next();
 			gameResource->load();
 		}
-		game_xml->buildXMLScene(requested_level_name, game_manager);
 		game_manager->loadLevel(requested_level_name);
+		game_xml->buildXMLScene(requested_level_name, game_manager);
 	}
 	loaded_level_name = requested_level_name;
 }

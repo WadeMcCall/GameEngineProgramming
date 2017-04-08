@@ -79,7 +79,7 @@
                   <entity>
                      <name>Monkey</name>
                      <mesh>sphere.mesh</mesh>
-                     <material>WeirdMan</material>
+                     <material>Monkey</material>
                   </entity>
 
                   <translation>0,2,0</translation>

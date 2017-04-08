@@ -13,9 +13,9 @@
 using namespace std;
 
 void RenderManager::leftJoystickAxisMoved(float north_south, float east_west){	
-	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("WeirdMan Transform");
+	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
 	Ogre::Vector3 current_pos = Scene_node->_getDerivedPosition();
-	cout << current_pos.x << " " << current_pos.y << " " << current_pos.z << endl;
+	//cout << current_pos.x << " " << current_pos.y << " " << current_pos.z << endl;
 	if(fabs(current_pos.x) <  5.5 && fabs(current_pos.z) < 5.5)
 		current_pos = Ogre::Vector3(current_pos.x + .002*east_west, current_pos.y, current_pos.z +.002*north_south);
 	else if(current_pos.x > 5.5)
@@ -97,8 +97,8 @@ void RenderManager::init()
 
 void RenderManager::attachEntity(std::string entity_name_str, std::string entity_mesh_str, std::string entity_material_str, std::string entity_scene_node_name_str){
 	Ogre::Entity* entity = scene_manager->createEntity(entity_name_str, entity_mesh_str);
-	entity->setMaterialName(entity_material_str);
 	Ogre::SceneNode* entity_scene_node = scene_manager->getSceneNode(entity_scene_node_name_str);
+	entity->setMaterialName(entity_material_str);
 	entity_scene_node->attachObject(entity);
 }
 
@@ -170,7 +170,7 @@ void RenderManager::loadLevel(std::string level_name){
 }
 
 void RenderManager::addPathResource(std::string path, std::string level_name){
-	game_manager->logComment("adding path resource from RenderManager");
+	game_manager->logComment(path);
 	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
 	rgm.addResourceLocation(path, "FileSystem", level_name);
 }

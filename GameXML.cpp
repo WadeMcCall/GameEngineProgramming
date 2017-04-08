@@ -150,7 +150,7 @@ void GameXML::processChildren(TiXmlElement* children_element, std::string parent
 			std::string entity_material_str = entity_material_element->GetText();
 			cout << "material " << entity_material_str << endl;
 			
-			game_manager->attachEntity(entity_name_str, entity_mesh_str, entity_material_str, parent_name_string);
+			game_manager->attachEntity(entity_name_str, entity_mesh_str, entity_material_str, child_name_str);
 		}
 		if(animation_element != NULL){
 			buildAnimation(child_name_str, animation_element, game_manager);
