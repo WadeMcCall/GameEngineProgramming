@@ -1,80 +1,84 @@
 ****COMMENT****
-11:25:02
+21:58:01
 Log Manager Initialized
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 Render Manager Initialized
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 Input Manager Initialized
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
+AudioManager initialized
+***************
+****COMMENT****
+21:58:02
 level_0
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 addingPathResource
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 addingpathResource from game manager
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 ./assets/models
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 addingPathResource
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 addingpathResource from game manager
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 ./assets/materials/scripts
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 addingMeshResource
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 addingMeshResource
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 building scene XML
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 built Animations
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 built Animations
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 level loaded
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 started rendering
 ***************
 ****COMMENT****
-11:25:03
+21:58:02
 started rendering
 ***************
 ****COMMENT****
-11:25:23
+21:58:12
 Stopped Rendering
 ***************
 ****COMMENT****
-11:25:23
+21:58:12
 Stopped Rendering
 ***************

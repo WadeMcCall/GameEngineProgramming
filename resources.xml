@@ -10,5 +10,17 @@
 			<mesh>Sphere.mesh</mesh>
 			<mesh>Trampoline.mesh</mesh>
 		</meshes>
+		<audios>
+			<audio>
+				<file>./assets/audio/level_0/Super_mario_bros.mp3</file>
+				<type>stream</type>
+				<name>theme</name>
+			</audio>
+			<audio>
+				<file>./assets/audio/level_0/falco1e.mp3</file>
+				<type>sample</type>
+				<name>shine</name>
+			</audio>
+		</audios>
 	</level>	
 </levels>

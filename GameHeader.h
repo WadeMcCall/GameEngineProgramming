@@ -2,6 +2,8 @@
 #define GAME_HEADER
 
 	typedef unsigned int uint32;
+	#include <iostream>
+	#include <string>
 
 	#if !defined ASSERT_LOG
 		#define ASSERT_LOG(expr, msg) if (!expr) \
@@ -17,6 +19,12 @@
 															game_manager->logProblem(msg, __FILE__, __LINE__); \
 															exit(0); \
 														}
+	#endif
+	
+	#if !defined PRINT_VALUE
+	#define PRINT_VALUE(number){\
+		std::cout << number << std::endl;\
+	}
 	#endif
 
 #endif

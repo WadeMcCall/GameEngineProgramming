@@ -50,6 +50,8 @@ class RenderManager
 	  void rightJoystickAxisMoved(float north_south, float east_west);
 	  void triggerMoved(float amount);
 	  void processKeyboardInput(std::string key);
+	  void updateAudio(float time_step);
+	  //void playAudio(std::string audio_name, int numRepeats);
 
       Ogre::RenderWindow* getRenderWindow();
       Ogre::SceneManager* getSceneManager();

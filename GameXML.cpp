@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include "PathResource.h"
 #include "MeshResource.h"
+#include "AudioResource.h"
 
 #include <vector>
 #include <iostream>
@@ -230,6 +231,27 @@ ListArray<GameResource>* GameXML::getXMLGameResourcesByLevel(std::string request
 				MeshResource* mesh_resource = new MeshResource(requested_level_name, mesh_str, MESH, game_manager);
 				game_resources->add(mesh_resource);
 				mesh_element = mesh_element->NextSiblingElement();
+			}
+			
+			TiXmlElement* audios_element = level_element->FirstChildElement("audios");
+			if(audios_element!=NULL){
+				TiXmlElement* audio_element = audios_element->FirstChildElement("audio");
+				while(audio_element!= NULL){
+					TiXmlElement* file_element = audio_element->FirstChildElement("file");
+					TiXmlElement* type_element = audio_element->FirstChildElement("type");
+					TiXmlElement* name_element = audio_element->FirstChildElement("name");
+					
+					std::string file_name = file_element->GetText();
+					std::string type_name = type_element->GetText();
+					std::string sound_name = name_element->GetText();
+					AudioResource* audio_resource;
+					if(type_name == "stream")
+						audio_resource = new AudioResource(requested_level_name, file_name, sound_name, STREAM);
+					else
+						audio_resource = new AudioResource(requested_level_name, file_name, sound_name, SAMPLE);
+					game_resources->add(audio_resource);
+					audio_element = audio_element->NextSiblingElement();
+				}
 			}
 		}
 		level_element = level_element->NextSiblingElement();

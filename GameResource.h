@@ -1,9 +1,10 @@
 #if !defined GAME_RESOURCE
 #define GAME_RESOURCE
 
-enum GameResourceType{PATH, MESH};
+enum GameResourceType{PATH, MESH, AUDIO};
 
 #include "GameHeader.h"
+#include "GameManager.h"
 #include <string>
 
 class GameResource{
@@ -19,8 +20,8 @@ class GameResource{
 		
 		bool isLoaded();
 		
-		virtual void load() = 0;
-		virtual void unload() = 0;
+		virtual void load(GameManager* game_manager) = 0;
+		virtual void unload(GameManager* game_manager) = 0;
 		
 		std::string getResourceLevelName();
 		std::string getResourceFileName();

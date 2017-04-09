@@ -1,5 +1,6 @@
 #include "ResourceManager.h"
 #include "GameManager.h"
+#include "AudioResource.h"
 #include "GameXML.h"
 #include "ListArrayIterator.h"
 #include <iostream>
@@ -24,7 +25,7 @@ void ResourceManager::loadLevel(std::string requested_level_name){
 		game_manager->logComment(requested_level_name);
 		while(game_resource_iter->hasNext()){
 			GameResource* gameResource = game_resource_iter->next();
-			gameResource->load();
+			gameResource->load(game_manager);
 		}
 		game_manager->loadLevel(requested_level_name);
 		game_xml->buildXMLScene(requested_level_name, game_manager);
@@ -36,6 +37,21 @@ void ResourceManager::unloadLevel(){
 	game_manager->unloadLevel(loaded_level_name);
 	loaded_level_name = "";
 }
+
+//AudioResource* ResourceManager::getAudioResourceByName(std::string audio_name){
+//	ListArrayIterator<GameResource>* game_resource_iter = game_resources_by_level->iterator();
+//	int i = 0;
+//	while(game_resource_iter->hasNext()){
+//		GameResource* gr = game_resource_iter->next();
+//		if(gr->getResourceType() == AUDIO){
+//			AudioResource* ar = game_resources_by_level->get(i);
+//			if(ar->getAudioResourceName() == audio_name){
+//				return ar;
+//			}
+//		}
+//		i++;
+//	}
+//}
 
 void ResourceManager::addPathResource(std::string path, std::string level_name){
 	game_manager->addPathResource(path, level_name);

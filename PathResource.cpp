@@ -10,13 +10,13 @@ PathResource::~PathResource(){
 	game_manager = NULL;
 }
 
-void PathResource::load(){
+void PathResource::load(GameManager* game_manager){
 	std::cout << "here";
 	game_manager->logComment("addingPathResource");
 	game_manager->addPathResource(getResourceFileName(),getResourceLevelName());
 	is_loaded = true;
 }
 
-void PathResource::unload(){
+void PathResource::unload(GameManager* game_manager){
 	is_loaded = false;
 }

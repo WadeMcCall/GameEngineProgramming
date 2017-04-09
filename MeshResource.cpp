@@ -9,12 +9,12 @@ MeshResource::~MeshResource(){
 	game_manager = NULL;
 }
 
-void MeshResource::load(){
+void MeshResource::load(GameManager* game_manager){
 	game_manager->logComment("addingMeshResource");
 	game_manager->addMeshResource(getResourceFileName(),getResourceLevelName());
 	is_loaded = true;
 }
 
-void MeshResource::unload(){
+void MeshResource::unload(GameManager* game_manager){
 	is_loaded = false;
 }

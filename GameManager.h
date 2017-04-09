@@ -5,7 +5,9 @@
 #include <vector>
 #include "LogManager.h"
 #include "InputManager.h"
+#include "AudioManager.h"
 #include "ResourceManager.h"
+#include "AudioResource.h"
 
 class RenderManager;
 
@@ -17,6 +19,8 @@ class GameManager
 	  LogManager* log_manager;
 	  InputManager* input_manager;
 	  ResourceManager* resource_manager;
+	  AudioManager* audio_manager;
+	  ListArray<AudioResource>* audio_resources;
 
       GameManager();
       void init();
@@ -49,5 +53,16 @@ class GameManager
 	  void addPathResource(std::string path, std::string level_name);	  
 	  void addMeshResource(std::string mesh_file_name, std::string level_name);
 	  void createAnimation(std::string animation_node_str, std::string animation_name_str, float seconds, std::vector<float> key_frame_times, std::vector<float*> key_frame_translate, std::vector<float*> key_frame_rotate);
+	  
+	  void addAudioResource(AudioResource* ar);
+	  void unloadStreamAudioResource(AudioResourceInfo* audio_info);
+	  void playAudio(AudioResource* audio_resource, uint32 num_repeats);
+	  //void playResourceAudio(std::string audio_name, int num_repeats);
+	  void updateAudio(float time_step);
+	  AudioResourceInfo* createAudioResourceInfo();
+	  void loadSampleAudioResource(std::string audio_file_name, AudioResourceInfo* audio_info);
+	  void loadStreamAudioResource(std::string audio_file_name, AudioResourceInfo* audio_info);
+	  void unloadSampleAudioResource(AudioResourceInfo* audio_info);
+	  void playAudioByName(std::string name, int times);
 };
 #endif

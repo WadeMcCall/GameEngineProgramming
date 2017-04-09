@@ -1,11 +1,58 @@
 #include "GameManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "AudioResource.h"
 #include "ListArray.h"
 #include "Ogre.h"
 
 #include <vector>
 #include <iostream>
+
+
+void GameManager::addAudioResource(AudioResource* ar){
+	audio_resources->add(ar);
+}
+
+void GameManager::playAudioByName(std::string name, int times){
+   ListArrayIterator<AudioResource>* audio_resources_iter = audio_resources->iterator();
+   while(audio_resources_iter->hasNext()){
+	   AudioResource* ar = audio_resources_iter->next();
+	   if(ar->getAudioResourceName() == name)
+			playAudio(ar, times);
+   }	
+}
+
+void GameManager::playAudio(AudioResource* audio_resource, uint32 num_repeats){
+	audio_manager->playAudio(audio_resource, num_repeats);
+}
+
+void GameManager::updateAudio(float time_step){
+	audio_manager->updateAudio(time_step);
+}
+
+//void GameManager::playResourceAudio(std::string audio_name, int num_repeats){
+//	playAudio(resource_manager->getAudioResourceByName(audio_name), num_repeats);
+//}
+
+AudioResourceInfo* GameManager::createAudioResourceInfo(){
+	return audio_manager->createAudioResourceInfo();
+}
+
+void GameManager::loadSampleAudioResource(std::string audio_file_name, AudioResourceInfo* audio_info){
+	audio_manager->loadSampleAudioResource(audio_file_name,audio_info);
+}
+
+void GameManager::loadStreamAudioResource(std::string audio_file_name, AudioResourceInfo* audio_info){
+	audio_manager->loadStreamAudioResource(audio_file_name,audio_info);
+}
+
+void GameManager::unloadSampleAudioResource(AudioResourceInfo* audio_info){
+	audio_manager->unloadSampleAudioResource(audio_info);
+}
+
+void GameManager::unloadStreamAudioResource(AudioResourceInfo* audio_info){
+	audio_manager->unloadStreamAudioResource(audio_info);
+}
 
 void GameManager::keyPressed(std::string key){
 	render_manager->processKeyboardInput(key);
@@ -105,14 +152,18 @@ void GameManager::init()
 	logComment("Render Manager Initialized");
 	input_manager = new InputManager(this);
 	logComment("Input Manager Initialized");
+	audio_manager = new AudioManager(this);
+	logComment("AudioManager initialized");
 }
 
 GameManager::GameManager()
 {
+   audio_resources = new ListArray<AudioResource>();
    init();
    //render_manager->parseResourceXML("resources.xml");
    //render_manager->parseSceneXML("monkey_scene.xml");
    resource_manager->loadLevel("level_0");
+   playAudioByName("theme", 1);
    logComment("level loaded");
    render_manager->startRendering();
 }
@@ -120,7 +171,8 @@ GameManager::GameManager()
 GameManager::~GameManager()
 {
 	std::cout << "GameManager destructor called" << std::endl;
-	
+	delete audio_manager;
+	audio_manager = NULL;
 	delete input_manager;
 	input_manager = NULL;
 	delete render_manager;

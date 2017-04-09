@@ -13,7 +13,7 @@ class MeshResource : public GameResource{
 		MeshResource(std::string level_name, std::string mesh, GameResourceType type, GameManager* gm);
 		virtual ~MeshResource();
 		
-		virtual void load();
-		virtual void unload();
+		virtual void load(GameManager* game_manager);
+		virtual void unload(GameManager* game_manager);
 };
 #endif

@@ -7,6 +7,7 @@
 class GameManager;
 class GameXML;
 class GameResource;
+class AudioResource;
 
 class ResourceManager{
 	private:
@@ -22,6 +23,7 @@ class ResourceManager{
 		
 		void unloadLevel();
 		void loadLevel(std::string requested_level_name);
+		//AudioResource* getAudioResourceByName(std::string audio_name);
 		
 		void addPathResource(std::string path, std::string level_name);
 		void addMeshResource(std::string mesh_file_name, std::string level_name);
