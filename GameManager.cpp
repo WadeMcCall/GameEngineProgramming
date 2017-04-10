@@ -1,6 +1,5 @@
 #include "GameManager.h"
 #include "RenderManager.h"
-#include "ResourceManager.h"
 #include "AudioResource.h"
 #include "ListArray.h"
 #include "Ogre.h"
@@ -8,6 +7,14 @@
 #include <vector>
 #include <iostream>
 
+
+void GameManager::mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel){
+	render_manager->mouseMoved(x_click, y_click, x_rel, y_rel);
+}
+
+void GameManager::mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button){
+	render_manager->mousePressed(x_click, y_click, mouse_button);
+}
 
 void GameManager::addAudioResource(AudioResource* ar){
 	audio_resources->add(ar);
@@ -29,10 +36,6 @@ void GameManager::playAudio(AudioResource* audio_resource, uint32 num_repeats){
 void GameManager::updateAudio(float time_step){
 	audio_manager->updateAudio(time_step);
 }
-
-//void GameManager::playResourceAudio(std::string audio_name, int num_repeats){
-//	playAudio(resource_manager->getAudioResourceByName(audio_name), num_repeats);
-//}
 
 AudioResourceInfo* GameManager::createAudioResourceInfo(){
 	return audio_manager->createAudioResourceInfo();

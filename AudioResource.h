@@ -3,7 +3,6 @@
 
 #include "GameResource.h"
 
-class GameManager;
 struct AudioResourceInfo;
 
 enum AudioResourceType{STREAM,SAMPLE};

@@ -10,12 +10,38 @@ using namespace std;
 
 void InputManager::checkForInput(){
 	if(keyboard_ois)keyboard_ois->capture();
+	if(mouse_ois)mouse_ois->capture();
 	if(joystick_ois){
 		joystick_ois->capture();
 		OIS::JoyStickState joystick_state = joystick_ois->getJoyStickState();
 		OIS::JoyStickEvent e(joystick_ois, joystick_state);
 		axisMoved(e,0);
 	}
+}
+
+bool InputManager::mousePressed(const OIS::MouseEvent& e, OIS::MouseButtonID id){
+	uint32 x_click = e.state.X.abs;
+	uint32 y_click = e.state.Y.abs;
+	game_manager->mousePressed(x_click, y_click, mouseMap(e));
+	return true;
+}
+
+bool InputManager::mouseReleased(const OIS::MouseEvent& e, OIS::MouseButtonID id){
+	uint32 x_click = e.state.X.abs;
+	uint32 y_click = e.state.Y.abs;
+	return true;
+}
+
+bool InputManager::mouseMoved(const OIS::MouseEvent& e){
+	e.state.width = window_width;
+	e.state.height = window_height;
+	uint32 x_click = e.state.X.abs;
+	uint32 y_click = e.state.Y.abs;
+	float x_rel = e.state.X.rel;
+	float y_rel = e.state.Y.rel;
+	
+	game_manager->mouseMoved(x_click, y_click, x_rel, y_rel);
+	return true;
 }
 
 bool InputManager::keyPressed(const OIS::KeyEvent& e){
@@ -76,6 +102,10 @@ void InputManager::init(){
 			joystick_ois = static_cast<OIS::JoyStick*>(input_manager_ois->createInputObject(OIS::OISJoyStick,true));
 			joystick_ois->setEventCallback(this);
 		}
+		if(input_manager_ois->getNumberOfDevices(OIS::OISMouse)>0){
+			mouse_ois = static_cast<OIS::Mouse*>(input_manager_ois->createInputObject(OIS::OISMouse,true));
+			mouse_ois->setEventCallback(this);
+		}
 	}
 	
 	catch(std::exception& e){
@@ -84,6 +114,16 @@ void InputManager::init(){
 	catch(...){
 		ASSERT_CRITICAL(false, "Input Manager Initialization Error");
 	}
+}
+
+std::string InputManager::mouseMap(const OIS::MouseEvent& id){
+	if(id.state.buttonDown(OIS::MB_Left)){
+		return "MB_left";
+	}
+	else if(id.state.buttonDown(OIS::MB_Right)){
+		return "MB_right";
+	}
+	else return "MB_middle";
 }
 
 std::string InputManager::keyMap(const OIS::KeyEvent& e){

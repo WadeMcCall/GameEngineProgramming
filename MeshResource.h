@@ -3,8 +3,6 @@
 
 #include "GameResource.h"
 
-class GameManager;
-
 class MeshResource : public GameResource{
 	private:
 		GameManager* game_manager;

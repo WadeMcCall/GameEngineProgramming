@@ -8,7 +8,7 @@
 
 class GameManager;
 
-class InputManager : public OIS::KeyListener, public OIS::JoyStickListener{
+class InputManager : public OIS::KeyListener, public OIS::JoyStickListener, public OIS::MouseListener{
 	private:
 		OIS::InputManager* input_manager_ois;
 		
@@ -35,6 +35,10 @@ class InputManager : public OIS::KeyListener, public OIS::JoyStickListener{
 		
 		bool keyPressed(const OIS::KeyEvent& e);
 		bool keyReleased(const OIS::KeyEvent& e);
+		bool mousePressed(const OIS::MouseEvent& e, OIS::MouseButtonID id);
+		bool mouseReleased(const OIS::MouseEvent& e, OIS::MouseButtonID id);
+		bool mouseMoved(const OIS::MouseEvent& e);
+		std::string mouseMap(const OIS::MouseEvent& id);
 		
 		bool buttonReleased(const OIS::JoyStickEvent& e, int button);
 		bool buttonPressed(const OIS::JoyStickEvent& e, int button);

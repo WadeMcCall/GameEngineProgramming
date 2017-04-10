@@ -10,6 +10,7 @@
 #include "AudioResource.h"
 
 class RenderManager;
+class GUIManager;
 
 //supplies communication between managers
 class GameManager
@@ -28,6 +29,8 @@ class GameManager
    public:
       virtual ~GameManager();
       static GameManager* getGameManager();
+	  void mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel);
+	  void mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button);
 	  void keyPressed(std::string key);
 	  void keyReleased(std::string key);
 	  void checkForInput(float time_step);
@@ -57,7 +60,6 @@ class GameManager
 	  void addAudioResource(AudioResource* ar);
 	  void unloadStreamAudioResource(AudioResourceInfo* audio_info);
 	  void playAudio(AudioResource* audio_resource, uint32 num_repeats);
-	  //void playResourceAudio(std::string audio_name, int num_repeats);
 	  void updateAudio(float time_step);
 	  AudioResourceInfo* createAudioResourceInfo();
 	  void loadSampleAudioResource(std::string audio_file_name, AudioResourceInfo* audio_info);

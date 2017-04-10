@@ -3,8 +3,6 @@
 
 #include "GameResource.h"
 
-class GameManager;
-
 class PathResource : public GameResource{
 	private:
 		GameManager* game_manager;

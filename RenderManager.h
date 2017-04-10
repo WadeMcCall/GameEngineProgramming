@@ -2,15 +2,16 @@
 #define RENDER_MANAGER
 
 #include "Ogre.h"
-#include "tinyxml.h"
 #include "ListArray.h"
 #include "ListArrayIterator.h"
 #include "AnimationRenderListener.h"
 #include "InputRenderListener.h"
+#include "GameHeader.h"
 
 #include<vector>
 
 class GameManager;
+class GUIManager;
 
 class RenderManager
 {
@@ -27,12 +28,10 @@ class RenderManager
       Ogre::Viewport* viewport2;
 
       GameManager* game_manager;
+	  GUIManager* gui_manager;
 	  ListArray<RenderListener>* render_listeners;
 
       void init();
-	  void buildAnimation(Ogre::SceneNode* monkey_animation_node, TiXmlElement* animation_element);
-	  void processChild(TiXmlElement* children_element, Ogre::SceneNode* parent);
-	  void processTransformations(int transform_type, std::string& transform_str, Ogre::SceneNode* scene_node);
       size_t window_handle;
       Ogre::Real time_since_last_frame;
 
@@ -41,6 +40,8 @@ class RenderManager
 	  AnimationRenderListener* render_listener;
       virtual ~RenderManager();
 	 // static RenderManager* getRenderManager();
+	 
+	 void playAudioByName(std::string name, int repeat);
 
       size_t getRenderWindowHandle();
       int getRenderWindowWidth();
@@ -52,6 +53,9 @@ class RenderManager
 	  void processKeyboardInput(std::string key);
 	  void updateAudio(float time_step);
 	  //void playAudio(std::string audio_name, int numRepeats);
+	  
+	  void mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button);
+	  void mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel);
 
       Ogre::RenderWindow* getRenderWindow();
       Ogre::SceneManager* getSceneManager();
@@ -59,9 +63,6 @@ class RenderManager
       void startRendering();
       void stopRendering();
 	  void processAnimations(float time_step);
-	  //void buildSimpleScene();
-	  void parseResourceXML(const char* file_name);
-	  void parseSceneXML(const char* file_name);
 	  
 	  void attachEntity(std::string entity_name_str, std::string entity_mesh_str, std::string entity_material_str, std::string entity_scene_node_name_str);
 	  void createSceneNode(std::string child_name_str, std::string parent_name_str);

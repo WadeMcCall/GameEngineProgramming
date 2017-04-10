@@ -1,84 +1,156 @@
 ****COMMENT****
-21:58:01
+19:41:00
 Log Manager Initialized
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 Render Manager Initialized
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 Input Manager Initialized
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 AudioManager initialized
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 level_0
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 addingPathResource
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 addingpathResource from game manager
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 ./assets/models
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 addingPathResource
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 addingpathResource from game manager
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 ./assets/materials/scripts
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
+addingPathResource
+***************
+****COMMENT****
+19:41:01
+addingpathResource from game manager
+***************
+****COMMENT****
+19:41:01
+./assets/cegui/imagesets
+***************
+****COMMENT****
+19:41:01
+addingPathResource
+***************
+****COMMENT****
+19:41:01
+addingpathResource from game manager
+***************
+****COMMENT****
+19:41:01
+./assets/cegui/schemes
+***************
+****COMMENT****
+19:41:01
+addingPathResource
+***************
+****COMMENT****
+19:41:01
+addingpathResource from game manager
+***************
+****COMMENT****
+19:41:01
+./assets/cegui/fonts
+***************
+****COMMENT****
+19:41:01
+addingPathResource
+***************
+****COMMENT****
+19:41:01
+addingpathResource from game manager
+***************
+****COMMENT****
+19:41:01
+./assets/cegui/looknfeel
+***************
+****COMMENT****
+19:41:01
+addingPathResource
+***************
+****COMMENT****
+19:41:01
+addingpathResource from game manager
+***************
+****COMMENT****
+19:41:01
+./assets/cegui/layouts
+***************
+****COMMENT****
+19:41:01
+addingPathResource
+***************
+****COMMENT****
+19:41:01
+addingpathResource from game manager
+***************
+****COMMENT****
+19:41:01
+./assets/cegui/lua_scripts
+***************
+****COMMENT****
+19:41:01
 addingMeshResource
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 addingMeshResource
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 building scene XML
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 built Animations
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 built Animations
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 level loaded
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 started rendering
 ***************
 ****COMMENT****
-21:58:02
+19:41:01
 started rendering
 ***************
 ****COMMENT****
-21:58:12
+19:41:11
 Stopped Rendering
 ***************
 ****COMMENT****
-21:58:12
+19:41:11
 Stopped Rendering
 ***************

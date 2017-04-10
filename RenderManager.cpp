@@ -6,18 +6,27 @@
 #include "ListArray.h"
 #include "ListArrayIterator.h"
 #include <math.h>
+#include "GUIManager.h"
 
 #include <vector>
 #include <iostream>
 using namespace std;
 
+void RenderManager::mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button){
+	gui_manager->mousePressed(x_click, y_click, mouse_button);
+}
+
+void RenderManager::mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel){
+	gui_manager->mouseMoved(x_click, y_click, x_rel, y_rel);
+}
+
+void RenderManager::playAudioByName(std::string name, int repeat){
+	game_manager->playAudioByName(name, repeat);
+}
+
 void RenderManager::updateAudio(float time_step){
 	game_manager->updateAudio(time_step);
 }
-
-//void RenderManager::playAudio(std::string audio_name, int numRepeats){
-//	game_manager->playResourceAudio(audio_name, numRepeats);
-//}
 
 void RenderManager::leftJoystickAxisMoved(float north_south, float east_west){	
 	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
@@ -100,6 +109,8 @@ void RenderManager::init()
 	  
 	  viewport = window->addViewport(NULL, 1,0,0,1,1);
 	  viewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	  
+	gui_manager = new GUIManager(this);
 }
 
 void RenderManager::attachEntity(std::string entity_name_str, std::string entity_mesh_str, std::string entity_material_str, std::string entity_scene_node_name_str){
@@ -174,6 +185,7 @@ void RenderManager::loadLevel(std::string level_name){
 	Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
 	rgm.initialiseResourceGroup(level_name);
 	rgm.loadResourceGroup(level_name, true, true);
+	gui_manager->loadLevel(level_name);
 }
 
 void RenderManager::addPathResource(std::string path, std::string level_name){

@@ -4,8 +4,9 @@
 enum GameResourceType{PATH, MESH, AUDIO};
 
 #include "GameHeader.h"
-#include "GameManager.h"
 #include <string>
+
+class GameManager;
 
 class GameResource{
 	protected:

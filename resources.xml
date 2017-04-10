@@ -3,7 +3,15 @@
 		<name>level_0</name>
 		<paths>
 			<path>./assets/models</path>
+			
 			<path>./assets/materials/scripts</path>
+			
+			<path>./assets/cegui/imagesets</path>
+			<path>./assets/cegui/schemes</path>
+			<path>./assets/cegui/fonts</path>
+			<path>./assets/cegui/looknfeel</path>
+			<path>./assets/cegui/layouts</path>
+			<path>./assets/cegui/lua_scripts</path>
 		</paths>
 		
 		<meshes>
@@ -12,7 +20,7 @@
 		</meshes>
 		<audios>
 			<audio>
-				<file>./assets/audio/level_0/Super_mario_bros.mp3</file>
+				<file>./assets/audio/level_0/melee_final_destination.mp3</file>
 				<type>stream</type>
 				<name>theme</name>
 			</audio>
