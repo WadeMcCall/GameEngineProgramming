@@ -12,5 +12,6 @@ bool InputRenderListener::frameStarted(const Ogre::FrameEvent& event){
 	
 	getRenderManager()->updateAudio(time_step);
 	getRenderManager()->checkForInput(time_step);
+	getRenderManager()->stepPhysicsSimulation(time_step);
 	return getRenderStatus();
 }

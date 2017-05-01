@@ -3,7 +3,7 @@
 #include <iostream>
 
 void GUIManager::buttonEvent(const CEGUI::EventArgs& e){
-	render_manager->playAudioByName("shine", 2);
+	render_manager->buttonEvent("shine",2);
 }
 
 void GUIManager::keyPressed(std::string game_key){

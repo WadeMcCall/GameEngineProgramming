@@ -179,11 +179,9 @@ bool InputManager::vector3Moved(const OIS::JoyStickEvent&e, int index){return tr
 bool InputManager::axisMoved(const OIS::JoyStickEvent&e, int axis){
 	int DeadZone = 7000;
 	
-	float amount[5] = {e.state.mAxes[0].abs,e.state.mAxes[1].abs,
+	int amount[5] = {e.state.mAxes[0].abs,e.state.mAxes[1].abs,
 						e.state.mAxes[2].abs,e.state.mAxes[3].abs,
 						e.state.mAxes[4].abs};
-						
-	//cout << amount [0] << " " << amount[1] << endl;
 	
 	float north_south = 0;
 	float east_west = 0;

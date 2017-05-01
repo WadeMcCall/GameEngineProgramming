@@ -61,9 +61,9 @@ void GameXML::buildXMLScene(std::string requested_level_name, GameManager* game_
 		}
 		level_element = level_element->NextSiblingElement();
 	}
+	game_manager->createRigidBodies();
 }
 
-//need to remove the OGre stuff if possible
 void GameXML::buildAnimation(std::string animation_node_str, TiXmlElement* animation_element, GameManager* game_manager){
 	TiXmlElement* name_element = animation_element->FirstChildElement("name");
 	std:string animation_name_str = name_element->GetText();
@@ -156,6 +156,33 @@ void GameXML::processChildren(TiXmlElement* children_element, std::string parent
 		if(animation_element != NULL){
 			buildAnimation(child_name_str, animation_element, game_manager);
 		}
+		TiXmlElement* physics_element = (TiXmlElement*) child_element->FirstChild("physics");
+		while(physics_element != NULL){
+			TiXmlElement* collision_shape_element = physics_element->FirstChildElement("collision_shape");
+			std::string collision_shape_name_str = collision_shape_element->GetText();
+			
+			TiXmlElement* translation_element = physics_element->FirstChildElement("translation");
+			std::string translation_str = translation_element->GetText();
+			float translation[3];
+			Utils::parseFloats(translation_str, translation);
+			
+			TiXmlElement* rotation_element = physics_element->FirstChildElement("rotation");
+			std::string rotation_str = rotation_element->GetText();
+			float rotation[4];
+			Utils::parseFloats(rotation_str, rotation);
+			
+			TiXmlElement* collision_parameters_element = physics_element->FirstChildElement("collision_parameters");
+			std::string collision_parameters_str = collision_parameters_element->GetText();
+			float params[3];
+			Utils::parseFloats(collision_parameters_str, params);
+			
+			TiXmlElement* mass_element = physics_element->FirstChildElement("mass");
+			std::string mass_str = mass_element->GetText();
+			float mass = stof(mass_str);
+			
+			game_manager->createCollisionShape(child_name_str, collision_shape_name_str, params, mass, translation, rotation);
+			physics_element = (TiXmlElement*) physics_element->NextSiblingElement("physics");
+		}
 		
 		TiXmlElement* translate_element = child_element->FirstChildElement("translation");
 		std::string translate_str = translate_element->GetText();
@@ -202,8 +229,6 @@ GameXML::~GameXML(){
 }
 
 ListArray<GameResource>* GameXML::getXMLGameResourcesByLevel(std::string requested_level_name, GameManager* game_manager){
-	//game_manager->logComment("gettingXMLResources");
-	//cout << "here" << endl;
 	ListArray<GameResource>* game_resources = new ListArray<GameResource>();
 	
 	TiXmlElement* levels_element = resources_xml_document->RootElement();

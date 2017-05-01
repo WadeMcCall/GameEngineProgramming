@@ -4,8 +4,8 @@
 	  <name>level_0</name>
       <camera>
          <name>Camera</name>
-         <position>0,5,30</position>
-         <look-at>0,-1,-1000</look-at>
+         <position>8,5,15</position>
+         <look-at>-500,-1,-1000</look-at>
          <clip>2,50</clip>
       </camera>
 
@@ -19,63 +19,36 @@
       <children>
          <child>
             <name>WeirdMan Transform</name>
-
-            <animation>
-               <name>WeirdMan Animation</name>
-               <seconds>3.0</seconds>
-
-               <keyframes>
-
-                 <keyframe>
-                  <time>0.0</time>
-                   <translation>0,0,0</translation>
-                   <rotation>1,0,0,0</rotation>
-                 </keyframe>
-
-                 <keyframe>
-                   <time>0.5</time>
-                   <translation>0,1,0</translation>
-                   <rotation>1,0,0,0</rotation>
-                 </keyframe>
-
-                 <keyframe>
-                   <time>1.0</time>
-                   <translation>0,1.75,0</translation>
-                   <rotation>1,0,0,0</rotation>
-                 </keyframe>
-
-                 <keyframe>
-                   <time>1.5</time>
-                   <translation>0,2.25,0</translation>
-                   <rotation>1,0,0,0</rotation>
-                 </keyframe>
-
-                 <keyframe>
-                   <time>2.0</time>
-                   <translation>0,1.75,0</translation>
-                   <rotation>1,0,0,0</rotation>
-                 </keyframe>
-                 <keyframe>
-                   <time>2.5</time>
-                   <translation>0,1,0</translation>
-                   <rotation>1,0,0,0</rotation>
-                 </keyframe>
-                 <keyframe>
-                   <time>3.0</time>
-                   <translation>0,0,0</translation>
-                   <rotation>1,0,0,0</rotation>
-                 </keyframe>
-               </keyframes>
-            </animation>
-
                    
 			<translation>0,3,0</translation>
 			<rotation>90,0,1,0</rotation>
 			<scale>1,1,1</scale>
+			<physics>
+				<collision_shape>sphere</collision_shape>
+				<translation>0,2,0</translation>
+				<rotation>30,1,0,0</rotation>
+				<collision_parameters>1,1,1</collision_parameters>
+				<mass>10</mass>
+			</physics>
+			<physics>
+				<collision_shape>box</collision_shape>
+				<translation>-1,1,0</translation>
+				<rotation>30,1,0,0</rotation>
+				<collision_parameters>.1,.6,.1</collision_parameters>
+				<mass>10</mass>
+			</physics>
+			<physics>
+				<collision_shape>box</collision_shape>
+				<translation>1,1,0</translation>
+				<rotation>30,1,0,0</rotation>
+				<collision_parameters>.1,.6,.1</collision_parameters>
+				<mass>10</mass>
+			</physics>
 
             <children>
                <child>
                   <name>Monkey Entity</name>
+			
                   <entity>
                      <name>Monkey</name>
                      <mesh>sphere.mesh</mesh>
@@ -92,56 +65,16 @@
          </child>
 			<child>
             <name>Trampoline Transform</name>
-			<animation>
-               <name>Trampoline Animation</name>
-               <seconds>3.0</seconds>
-
-               <keyframes>
-
-                 <keyframe>
-                  <time>0.0</time>
-                   <translation>0,0,0</translation>
-                   <rotation>0,0,1,0</rotation>
-                 </keyframe>
-
-                 <keyframe>
-                  <time>.1</time>
-                   <translation>0,0,0</translation>
-                   <rotation>2,0,1,0</rotation>
-				  </keyframe>
-
-                 <keyframe>
-                  <time>.2</time>
-                   <translation>0,0,0</translation>
-                   <rotation>4,0,1,0</rotation>
-                 </keyframe>
-				 
-
-                 <keyframe>
-                  <time>.3</time>
-                   <translation>0,0,0</translation>
-                   <rotation>0,0,1,0</rotation>
-                 </keyframe>
-				 <keyframe>
-                  <time>.5</time>
-                   <translation>0,0,0</translation>
-                   <rotation>0,0,1,0</rotation>
-                 </keyframe>
-				 <keyframe>
-                  <time>1</time>
-                   <translation>0,0,0</translation>
-                   <rotation>0,0,1,0</rotation>
-                 </keyframe>
-				 <keyframe>
-                  <time>3</time>
-                   <translation>0,0,0</translation>
-                   <rotation>0,0,1,0</rotation>
-                 </keyframe>
-			 </keyframes>
-		 </animation>
 		<translation>0,0,0</translation>
 		<rotation>0,0,0,0</rotation>
 		<scale>1,1,1</scale>
+		<physics>
+			<collision_shape>box</collision_shape>
+			<translation>0,0,0</translation>
+			<rotation>1,0,0,0</rotation>
+			<collision_parameters>7,.1,7</collision_parameters>
+			<mass>0</mass>
+		</physics>
             <children>
                <child>
 				<name>Trampoline Entity</name>

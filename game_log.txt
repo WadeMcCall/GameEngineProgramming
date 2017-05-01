@@ -1,156 +1,155 @@
 ****COMMENT****
-19:41:00
+21:25:13
 Log Manager Initialized
 ***************
+****ASSERTION FAILURE****
+21:25:31
+Assertion Failed: 
+Src File: RenderManager.cpp
+Line Number: 221
+Error Message: render_manager sub managers initialised
+*************************
 ****COMMENT****
-19:41:01
+21:25:31
 Render Manager Initialized
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 Input Manager Initialized
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 AudioManager initialized
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 level_0
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 ./assets/models
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 ./assets/materials/scripts
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:31
 ./assets/cegui/imagesets
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 ./assets/cegui/schemes
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 ./assets/cegui/fonts
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 ./assets/cegui/looknfeel
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 ./assets/cegui/layouts
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingPathResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingpathResource from game manager
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 ./assets/cegui/lua_scripts
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingMeshResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 addingMeshResource
 ***************
 ****COMMENT****
-19:41:01
+21:25:32
 building scene XML
 ***************
 ****COMMENT****
-19:41:01
-built Animations
-***************
-****COMMENT****
-19:41:01
-built Animations
-***************
-****COMMENT****
-19:41:01
+21:25:33
 level loaded
 ***************
 ****COMMENT****
-19:41:01
+21:25:33
 started rendering
 ***************
 ****COMMENT****
-19:41:01
+21:25:33
 started rendering
 ***************
 ****COMMENT****
-19:41:11
+21:25:41
 Stopped Rendering
 ***************
 ****COMMENT****
-19:41:11
+21:25:41
 Stopped Rendering
 ***************

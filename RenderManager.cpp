@@ -5,12 +5,118 @@
 #include "InputRenderListener.h"
 #include "ListArray.h"
 #include "ListArrayIterator.h"
-#include <math.h>
 #include "GUIManager.h"
+#include "ScriptManager.h"
+#include "PhysicsManager.h"
 
+#include <math.h>
 #include <vector>
 #include <iostream>
 using namespace std;
+
+struct SceneNodeMotion{
+	Ogre::SceneNode* scene_node_motion;
+};
+
+struct SceneNodeManual{
+	Ogre::SceneNode* scene_node_manual;
+};
+
+SceneNodeManual* RenderManager::createManualObject(){
+	SceneNodeManual* scene_node_manual = new SceneNodeManual;
+	
+	Ogre::ManualObject* manual_object = scene_manager->createManualObject("ManualObject");
+	manual_object->setDynamic(true);
+	static const char* mat_name = "OgreBulletCollisionDebugDefault";
+	Ogre::MaterialPtr manual_object_material = Ogre::MaterialManager::getSingleton().getDefaultSettings();
+	manual_object_material->setReceiveShadows(false);
+	manual_object_material->getTechnique(0)->setLightingEnabled(false);
+	Ogre::SceneNode* manual_object_node = scene_manager->getRootSceneNode()->createChildSceneNode();
+	manual_object_node->attachObject(manual_object);
+	
+	scene_node_manual->scene_node_manual = manual_object_node;
+	return scene_node_manual;
+}
+
+void RenderManager::drawLine(float* from, float* to, float* color, SceneNodeManual* snm){
+	Ogre::SceneNode* scene_node_manual = snm->scene_node_manual;
+	Ogre::ManualObject* manual_object = (Ogre::ManualObject*) scene_node_manual->getAttachedObject("ManualObject");
+	manual_object->begin("OgreBulletCollisionDebugDefault", Ogre::RenderOperation::OT_LINE_LIST);
+	manual_object->position(Ogre::Vector3(from[0],from[1],from[2]));
+	manual_object->colour(Ogre::ColourValue(color[0],color[1],color[2]));
+	manual_object->position(Ogre::Vector3(to[0],to[1],to[2]));
+	manual_object->end();
+}
+
+void RenderManager::destroySceneNodeMotion(SceneNodeMotion* snm){
+	free(snm);
+}
+
+void RenderManager::setPosition(SceneNodeMotion* scene_node_motion, double x, double y, double z){
+	Ogre::SceneNode* scene_node = scene_node_motion->scene_node_motion;
+	scene_node->setPosition(x,y,z);
+}
+
+void RenderManager::setOrientation(SceneNodeMotion* scene_node_motion, double w, double x, double y, double z){
+	Ogre::SceneNode* scene_node = scene_node_motion->scene_node_motion;
+	scene_node->setOrientation(w,x,y,z);
+}
+
+SceneNodeMotion* RenderManager::createSceneNodeMotion(std::string& scene_node_id){
+	SceneNodeMotion* scene_node_motion = (SceneNodeMotion*) malloc(sizeof(SceneNodeMotion));
+	scene_node_motion->scene_node_motion = scene_manager->getSceneNode(scene_node_id);
+	return scene_node_motion;
+}
+
+void RenderManager::clearManualObject(SceneNodeManual* snm){
+	Ogre::SceneNode* scene_node_manual = snm->scene_node_manual;
+	Ogre::ManualObject* manual_object = (Ogre::ManualObject*) scene_node_manual->getAttachedObject("ManualObject");
+	manual_object->clear();
+}
+
+float* RenderManager::getPosition(SceneNodeMotion* scene_node_motion){
+	Ogre::SceneNode* scene_node = scene_node_motion->scene_node_motion;
+	
+	Ogre::Vector3 pos = scene_node->getPosition();
+	float* pos1 = new float[3];
+	pos1[0] = pos.x;
+	pos1[1] = pos.y;
+	pos1[2] = pos.z;
+	return pos1;
+}
+
+float* RenderManager::getOrientation(SceneNodeMotion* scene_node_motion){
+	Ogre::SceneNode* scene_node = scene_node_motion->scene_node_motion;
+	
+	Ogre::Quaternion q = scene_node->getOrientation();
+	Ogre::Real w = q.w;
+	Ogre::Real x = q.x;
+	Ogre::Real y = q.y;
+	Ogre::Real z = q.z;
+	
+	float* rot = new float[4];
+	rot[3] = w;
+	rot[2] = x;
+	rot[1] = y;
+	rot[0] = z;
+	return rot;
+}
+
+void RenderManager::stepPhysicsSimulation(float elapsed_time){
+	physics_manager->stepPhysicsSimulation(elapsed_time);
+}
+
+void RenderManager::createCollisionShape(std::string& child_name, std::string& shape_str, float* params, float mass, float* translation, float* rotation){
+	physics_manager->createCollisionShape(child_name, shape_str, params, mass, translation, rotation);
+}
+
+void RenderManager::createRigidBodies(){
+	physics_manager->createRigidBodies();
+}
+
+void RenderManager::buttonEvent(std::string audioName, int numRepeats){
+	script_manager->buttonEventCallback(audioName, numRepeats, "./assets/lua_scripts/test_script.lua");
+}
 
 void RenderManager::mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button){
 	gui_manager->mousePressed(x_click, y_click, mouse_button);
@@ -22,6 +128,13 @@ void RenderManager::mouseMoved(uint32 x_click, uint32 y_click, float x_rel, floa
 
 void RenderManager::playAudioByName(std::string name, int repeat){
 	game_manager->playAudioByName(name, repeat);
+	string file_name = "./assets/lua_scripts/test_script.lua";
+	string script_name = "test";
+	
+	script_manager->executeScript(file_name, script_name, 1);
+	string output_str = script_manager->output(1);
+	cout << output_str << endl;
+	script_manager->reset();
 }
 
 void RenderManager::updateAudio(float time_step){
@@ -29,20 +142,12 @@ void RenderManager::updateAudio(float time_step){
 }
 
 void RenderManager::leftJoystickAxisMoved(float north_south, float east_west){	
-	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
-	Ogre::Vector3 current_pos = Scene_node->_getDerivedPosition();
-	//cout << current_pos.x << " " << current_pos.y << " " << current_pos.z << endl;
-	if(fabs(current_pos.x) <  5.5 && fabs(current_pos.z) < 5.5)
-		current_pos = Ogre::Vector3(current_pos.x + .002*east_west, current_pos.y, current_pos.z +.002*north_south);
-	else if(current_pos.x > 5.5)
-		current_pos.x = 5.4;
-	else if (current_pos.x < -5.5)
-		current_pos.x = -5.4;
-	else if(current_pos.z > 5.5)
-		current_pos.z = 5.4;
-	else if (current_pos.z < -5.5)
-		current_pos.z = -5.4;
-	Scene_node->_setDerivedPosition(current_pos);
+	//Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
+	//Ogre::Vector3 current_pos = Scene_node->_getDerivedPosition();
+	////cout << current_pos.x << " " << current_pos.y << " " << current_pos.z << endl;
+	//current_pos = Ogre::Vector3(current_pos.x + .002*east_west, current_pos.y, current_pos.z +.002*north_south);
+	//Scene_node->_setDerivedPosition(current_pos);
+	physics_manager->applyTorqueImpusle("Trampoline Transform", north_south, east_west, north_south);
 }
 
 void RenderManager::rightJoystickAxisMoved(float north_south, float east_west){
@@ -111,6 +216,9 @@ void RenderManager::init()
 	  viewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
 	  
 	gui_manager = new GUIManager(this);
+	script_manager = new ScriptManager(game_manager);
+	physics_manager = new PhysicsManager(this);
+	ASSERT_LOG(false,"render_manager sub managers initialised");
 }
 
 void RenderManager::attachEntity(std::string entity_name_str, std::string entity_mesh_str, std::string entity_material_str, std::string entity_scene_node_name_str){
@@ -321,6 +429,8 @@ RenderManager::~RenderManager()
 	
 	delete animation_states;
 	game_manager = NULL;
+	delete script_manager;
+	script_manager = NULL;
 	
 	scene_manager->clearScene();
 	scene_manager->destroyAllCameras();

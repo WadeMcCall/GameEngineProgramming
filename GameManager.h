@@ -66,5 +66,9 @@ class GameManager
 	  void loadStreamAudioResource(std::string audio_file_name, AudioResourceInfo* audio_info);
 	  void unloadSampleAudioResource(AudioResourceInfo* audio_info);
 	  void playAudioByName(std::string name, int times);
+	  
+	  
+	  void createRigidBodies();
+	  void createCollisionShape(std::string child_name_str, std::string collision_shape_name_str, float* params, float mass, float* translation, float* rotation);
 };
 #endif

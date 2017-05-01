@@ -7,6 +7,13 @@
 #include <vector>
 #include <iostream>
 
+void GameManager::createRigidBodies(){
+	render_manager->createRigidBodies();
+}
+
+void GameManager::createCollisionShape(std::string child_name_str, std::string collision_shape_name_str, float* params, float mass, float* translation, float* rotation){
+	render_manager->createCollisionShape(child_name_str, collision_shape_name_str, params, mass, translation, rotation);
+}
 
 void GameManager::mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel){
 	render_manager->mouseMoved(x_click, y_click, x_rel, y_rel);

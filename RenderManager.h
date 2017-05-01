@@ -7,11 +7,16 @@
 #include "AnimationRenderListener.h"
 #include "InputRenderListener.h"
 #include "GameHeader.h"
+#include "BulletSceneNodeMotionState.h"
 
 #include<vector>
 
 class GameManager;
 class GUIManager;
+class ScriptManager;
+class PhysicsManager;
+struct SceneNodeManual;
+struct SceneNodeMotion;
 
 class RenderManager
 {
@@ -29,6 +34,8 @@ class RenderManager
 
       GameManager* game_manager;
 	  GUIManager* gui_manager;
+	  ScriptManager* script_manager;
+	  PhysicsManager* physics_manager;
 	  ListArray<RenderListener>* render_listeners;
 
       void init();
@@ -42,6 +49,20 @@ class RenderManager
 	 // static RenderManager* getRenderManager();
 	 
 	 void playAudioByName(std::string name, int repeat);
+	 void buttonEvent(std::string audioName, int numRepeats);
+	 
+	 SceneNodeManual* createManualObject();
+	 void drawLine(float* from, float* to, float* color, SceneNodeManual* snm);
+	 void destroySceneNodeMotion(SceneNodeMotion* snm);
+	 void setPosition(SceneNodeMotion* scene_node_motion, double x, double y, double z);
+	 void setOrientation(SceneNodeMotion* scene_node_motion, double w, double x, double y, double z);
+	 SceneNodeMotion* createSceneNodeMotion(std::string& scene_node_id);
+	 void clearManualObject(SceneNodeManual* snm);
+	 float* getPosition(SceneNodeMotion* scene_node_motion);
+	 float* getOrientation(SceneNodeMotion* scene_node_motion);
+	 void stepPhysicsSimulation(float elapsed_time);
+	 void createCollisionShape(std::string& child_name, std::string& shape_str, float* params, float mass, float* translation, float* rotation);
+	 void createRigidBodies();
 
       size_t getRenderWindowHandle();
       int getRenderWindowWidth();
