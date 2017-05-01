@@ -13,11 +13,12 @@ extern "C" //prevents name mangling
 #include <string>
 #include "ListArray.h"
 #include "GameManager.h"
+#include "ScriptManagerInterface.h"
 
-class ScriptManager{
+class ScriptManager : public ScriptManagerInterface
+{
 	private:
 		lua_State* L;
-		GameManager* game_manager;
 		
 		ListArray<const char>* inputs;
 		ListArray<const char>* outputs;

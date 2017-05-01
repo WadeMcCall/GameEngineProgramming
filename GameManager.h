@@ -8,12 +8,13 @@
 #include "AudioManager.h"
 #include "ResourceManager.h"
 #include "AudioResource.h"
+#include "GameManagerInterface.h"
 
 class RenderManager;
 class GUIManager;
 
 //supplies communication between managers
-class GameManager
+class GameManager : GameManagerInterface
 {
    private:
       RenderManager* render_manager;
@@ -43,7 +44,6 @@ class GameManager
       int getRenderWindowWidth();
       int getRenderWindowHeight();
       size_t getRenderWindowHandle();
-	  std::string getLoadedLevelName();
 	  
 	  void attachEntity(std::string entity_name_str, std::string entity_mesh_str, std::string entity_material_str, std::string entity_scene_node_name_str);	  
 	  void createSceneNode(std::string child_name_str, std::string parent_name_str);	  

@@ -174,12 +174,10 @@ void GameManager::init()
 	logComment("AudioManager initialized");
 }
 
-GameManager::GameManager()
+GameManager::GameManager() : GameManagerInterface()
 {
    audio_resources = new ListArray<AudioResource>();
    init();
-   //render_manager->parseResourceXML("resources.xml");
-   //render_manager->parseSceneXML("monkey_scene.xml");
    resource_manager->loadLevel("level_0");
    playAudioByName("theme", 1);
    logComment("level loaded");

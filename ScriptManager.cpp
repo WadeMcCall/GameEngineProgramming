@@ -30,7 +30,7 @@ std::string ScriptManager::output(int index){
 	return output_str;
 }
 
-ScriptManager::ScriptManager(GameManager* gm){
+ScriptManager::ScriptManager(GameManager* gm) : ScriptManagerInterface(gm){
 	game_manager = gm;
 	L = luaL_newstate();
 	luaL_openlibs(L);

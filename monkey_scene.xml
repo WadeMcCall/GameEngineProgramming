@@ -63,18 +63,18 @@
                </child>
             </children>
          </child>
-			<child>
+		<child>
             <name>Trampoline Transform</name>
-		<translation>0,0,0</translation>
-		<rotation>0,0,0,0</rotation>
-		<scale>1,1,1</scale>
-		<physics>
-			<collision_shape>box</collision_shape>
-			<translation>0,0,0</translation>
-			<rotation>1,0,0,0</rotation>
-			<collision_parameters>7,.1,7</collision_parameters>
-			<mass>0</mass>
-		</physics>
+				<translation>0,0,0</translation>
+				<rotation>0,0,0,0</rotation>
+				<scale>1,1,1</scale>
+				<physics>
+					<collision_shape>box</collision_shape>
+					<translation>0,0,0</translation>
+					<rotation>1,0,0,0</rotation>
+					<collision_parameters>7,.1,7</collision_parameters>
+					<mass>0</mass>
+				</physics>
             <children>
                <child>
 				<name>Trampoline Entity</name>

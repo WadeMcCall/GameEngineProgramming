@@ -14,13 +14,6 @@
 #include <iostream>
 using namespace std;
 
-void RenderManager::buttonPressed(std::string button){
-	if(button == "A")
-		jump();
-	if(button == "X")
-		buttonEvent1();
-}
-
 
 struct SceneNodeMotion{
 	Ogre::SceneNode* scene_node_motion;
@@ -29,6 +22,13 @@ struct SceneNodeMotion{
 struct SceneNodeManual{
 	Ogre::SceneNode* scene_node_manual;
 };
+
+void RenderManager::buttonPressed(std::string button){
+	if(button == "A")
+		jump();
+	if(button == "X")
+		buttonEvent1();
+}
 
 SceneNodeManual* RenderManager::createManualObject(){
 	SceneNodeManual* scene_node_manual = new SceneNodeManual;
@@ -125,17 +125,17 @@ void RenderManager::jump(){
 		physics_manager->applyImpulse("WeirdMan Transform", 0, 200, 1);
 }
 
+
+void RenderManager::buttonEvent1(){
+	physics_manager->clearForces();
+}
+
 void RenderManager::createRigidBodies(){
 	physics_manager->createRigidBodies();
 }
 
 void RenderManager::buttonEvent(std::string audioName, int numRepeats){
 	script_manager->buttonEventCallback(audioName, numRepeats, "./assets/lua_scripts/test_script.lua");
-}
-
-
-void RenderManager::buttonEvent1(){
-	physics_manager->clearForces();
 }
 
 void RenderManager::mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button){
@@ -357,7 +357,7 @@ void RenderManager::createAnimation(std::string animation_node_str, std::string 
 	game_manager->logComment("built Animations");
 }
 
-RenderManager::RenderManager(GameManager* gm)
+RenderManager::RenderManager(GameManager* gm) : RenderManagerInterface(gm)
 {
    game_manager = gm;
    init();

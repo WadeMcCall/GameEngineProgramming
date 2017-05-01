@@ -11,8 +11,7 @@
 
 void PhysicsManager::stepPhysicsSimulation(float time_incr){
 	btScalar time_step(time_incr);
-	updateRigidBodies();
-	//updateRigidBodyVelocity(time_incr);
+	//updateRigidBodies();
 	dynamics_world->stepSimulation(time_step, 10, .01667);
 	dynamics_world->debugDrawWorld();
 }
@@ -153,32 +152,6 @@ void PhysicsManager::init(){
 	dynamics_world = new btDiscreteDynamicsWorld(dispatcher, overlapping_pair_cache, solver, collision_configuration);
 	
 }
-
-//void PhysicsManager::createRigidBodies(){
-//	AVLTreeIterator<CompoundShape>* it = compound_shapes->tableIterator();
-//	btCompoundShape* com_shape = 0;
-//	while(it->hasNext()){
-//		CompoundShape* cs = it->next();
-//		SceneNodeMotion* snm = render_manager->createSceneNodeMotion(*(cs->getKey()));
-//		string mstr = "snm";
-//		string* motion_state_str = &mstr;
-//		
-//		BulletSceneNodeMotionState* ms = new BulletSceneNodeMotionState(motion_state_str, snm, render_manager);
-//		btScalar* m = new btScalar(cs->getMass());
-//		com_shape = cs->getCompoundShape();
-//		btVector3* li = new btVector3(0,0,0);
-//		com_shape->calculateLocalInertia(*m, *li);
-//		btRigidBody::btRigidBodyConstructionInfo* rbci = new btRigidBody::btRigidBodyConstructionInfo(*m, ms, com_shape);
-//		btRigidBody* btrb = new btRigidBody(*rbci);
-//		btrb->setDamping(-1,1);
-//		btrb->setActivationState(DISABLE_DEACTIVATION);
-//		RigidBody* rb = new RigidBody(*(cs->getKey()), btrb);
-//		rigid_bodies->tableInsert(rb);
-//		
-//		dynamics_world->addRigidBody(btrb);
-//	}
-//	delete it;
-//}
 
 void PhysicsManager::createRigidBodies() {
 	AVLTreeIterator<CompoundShape>* iter = compound_shapes->tableIterator();

@@ -8,6 +8,7 @@
 #include "InputRenderListener.h"
 #include "GameHeader.h"
 #include "BulletSceneNodeMotionState.h"
+#include "RenderManagerInterface.h"
 
 #include<vector>
 
@@ -18,10 +19,10 @@ class PhysicsManager;
 struct SceneNodeManual;
 struct SceneNodeMotion;
 
-class RenderManager
+class RenderManager : public RenderManagerInterface
 {
    private:
-		ListArray<Ogre::AnimationState>* animation_states;
+	  ListArray<Ogre::AnimationState>* animation_states;
 	
       Ogre::Root* root;
       Ogre::RenderWindow* window;
@@ -46,23 +47,22 @@ class RenderManager
       RenderManager(GameManager* game_manager);
 	  AnimationRenderListener* render_listener;
       virtual ~RenderManager();
-	 // static RenderManager* getRenderManager();
 	 
-	 void playAudioByName(std::string name, int repeat);
-	 void buttonEvent(std::string audioName, int numRepeats);
+	  void playAudioByName(std::string name, int repeat);
+	  void buttonEvent(std::string audioName, int numRepeats);
 	 
-	 SceneNodeManual* createManualObject();
-	 void drawLine(float* from, float* to, float* color, SceneNodeManual* snm);
-	 void destroySceneNodeMotion(SceneNodeMotion* snm);
-	 void setPosition(SceneNodeMotion* scene_node_motion, double x, double y, double z);
-	 void setOrientation(SceneNodeMotion* scene_node_motion, double w, double x, double y, double z);
-	 SceneNodeMotion* createSceneNodeMotion(std::string& scene_node_id);
-	 void clearManualObject(SceneNodeManual* snm);
-	 float* getPosition(SceneNodeMotion* scene_node_motion);
-	 float* getOrientation(SceneNodeMotion* scene_node_motion);
-	 void stepPhysicsSimulation(float elapsed_time);
-	 void createCollisionShape(std::string& child_name, std::string& shape_str, float* params, float mass, float* translation, float* rotation);
-	 void createRigidBodies();
+	  SceneNodeManual* createManualObject();
+	  void drawLine(float* from, float* to, float* color, SceneNodeManual* snm);
+	  void destroySceneNodeMotion(SceneNodeMotion* snm);
+	  void setPosition(SceneNodeMotion* scene_node_motion, double x, double y, double z);
+	  void setOrientation(SceneNodeMotion* scene_node_motion, double w, double x, double y, double z);
+	  SceneNodeMotion* createSceneNodeMotion(std::string& scene_node_id);
+	  void clearManualObject(SceneNodeManual* snm);
+	  float* getPosition(SceneNodeMotion* scene_node_motion);
+	  float* getOrientation(SceneNodeMotion* scene_node_motion);
+	  void stepPhysicsSimulation(float elapsed_time);
+	  void createCollisionShape(std::string& child_name, std::string& shape_str, float* params, float mass, float* translation, float* rotation);
+	  void createRigidBodies();
 
       size_t getRenderWindowHandle();
       int getRenderWindowWidth();
@@ -73,13 +73,11 @@ class RenderManager
 	  void triggerMoved(float amount);
 	  void processKeyboardInput(std::string key);
 	  void updateAudio(float time_step);
-	  //void playAudio(std::string audio_name, int numRepeats);
 	  
 	  void mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button);
 	  void mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel);
 
       Ogre::RenderWindow* getRenderWindow();
-      Ogre::SceneManager* getSceneManager();
 
       void startRendering();
       void stopRendering();
@@ -101,5 +99,4 @@ class RenderManager
 	  void buttonPressed(std::string button);
 	  void buttonEvent1();
 };
-
 #endif
