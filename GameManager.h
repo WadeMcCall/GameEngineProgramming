@@ -33,6 +33,7 @@ class GameManager
 	  void mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button);
 	  void keyPressed(std::string key);
 	  void keyReleased(std::string key);
+	  void buttonPressed(std::string button);
 	  void checkForInput(float time_step);
 	  void logProblem(std::string msg, std::string filename, int line);
 	  void logComment(std::string msg);
@@ -70,5 +71,6 @@ class GameManager
 	  
 	  void createRigidBodies();
 	  void createCollisionShape(std::string child_name_str, std::string collision_shape_name_str, float* params, float mass, float* translation, float* rotation);
+	  void jump();
 };
 #endif

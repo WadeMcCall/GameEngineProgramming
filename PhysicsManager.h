@@ -37,5 +37,7 @@ class PhysicsManager{
 		void createRigidBodies();
 		void createCollisionShape(std::string& compound_shape_id, std::string& collision_shape, float* params, float mass, float* translation, float* rotation);
 		void updateRigidBodies();
+		void applyImpulse(std::string rigid_body_name, float ns, float ew, float force);
+		void clearForces();
 };
 #endif

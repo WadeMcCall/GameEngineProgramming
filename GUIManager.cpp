@@ -6,6 +6,10 @@ void GUIManager::buttonEvent(const CEGUI::EventArgs& e){
 	render_manager->buttonEvent("shine",2);
 }
 
+void GUIManager::buttonEvent1(const CEGUI::EventArgs& e){
+	render_manager->buttonEvent1();
+}
+
 void GUIManager::keyPressed(std::string game_key){
 	gui_context->injectChar((char) game_key[0]);
 }
@@ -67,6 +71,8 @@ void GUIManager::createGUIContext(){
 	
 	CEGUI::PushButton* push_button = static_cast<CEGUI::PushButton*>(root_window->getChild("FrameWindow/Button"));
 	push_button->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIManager::buttonEvent, this));
+	CEGUI::PushButton* push_button1 = static_cast<CEGUI::PushButton*>(root_window->getChild("FrameWindow/Button1"));
+	push_button1->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GUIManager::buttonEvent1, this));
 }
 
 void GUIManager::destroyGUIContext(){

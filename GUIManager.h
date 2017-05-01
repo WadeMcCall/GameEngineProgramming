@@ -32,5 +32,6 @@ class GUIManager{
 		void mousePressed(uint32 mouse_x, uint32 mouse_y, std::string mouse_button);
 		
 		void buttonEvent(const CEGUI::EventArgs& e);
+		void buttonEvent1(const CEGUI::EventArgs& e);
 };
 #endif

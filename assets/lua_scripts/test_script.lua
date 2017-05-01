@@ -1,1 +1,1 @@
-game_manager:playAudioByName(parameter_str, num)
+game_manager:jump()

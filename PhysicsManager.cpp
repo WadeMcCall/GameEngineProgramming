@@ -12,7 +12,7 @@
 void PhysicsManager::stepPhysicsSimulation(float time_incr){
 	btScalar time_step(time_incr);
 	updateRigidBodies();
-	updateRigidBodyVelocity(time_incr);
+	//updateRigidBodyVelocity(time_incr);
 	dynamics_world->stepSimulation(time_step, 10, .01667);
 	dynamics_world->debugDrawWorld();
 }
@@ -49,6 +49,17 @@ void PhysicsManager::getLinearVelocity(std::string rigid_body_name, float* v){
 	}
 }
 
+void PhysicsManager::applyImpulse(std::string rigid_body_name, float ns, float ew, float force){
+	btVector3 impluse(ns, ew, force);
+	btVector3 rel_pos(0,0,0);
+	RigidBody* rb_torque = rigid_bodies->tableRetrieve(&rigid_body_name);
+	
+	if(rb_torque){
+		btRigidBody* bt_rb_torque = rb_torque->getRigidBody();
+		bt_rb_torque->applyImpulse(impluse, rel_pos);
+	}
+}
+
 void PhysicsManager::setRigidBodyVelocity(std::string rigid_body_name, float end_time, float* a){
 	RigidBody* rb = rigid_bodies->tableRetrieve(&rigid_body_name);
 	rb->setCustomVelocity(end_time, a);
@@ -59,6 +70,19 @@ void PhysicsManager::applyTorqueImpusle(std::string rigid_body_name, float pitch
 	if(rb_torque){
 		btRigidBody* bt_rb_torque = rb_torque->getRigidBody();
 		bt_rb_torque->applyTorqueImpulse(btVector3(pitch, yaw, roll));
+	}
+}
+
+void PhysicsManager::clearForces(){
+	std::string rigid_body_name = "WeirdMan Transform";
+	RigidBody* rb_stop = rigid_bodies->tableRetrieve(&rigid_body_name);
+	
+	if(rb_stop){
+		btRigidBody* bt_rb_stop = rb_stop->getRigidBody();
+		bt_rb_stop->clearForces();
+		btVector3 a = {0,0,0};
+		bt_rb_stop->setLinearVelocity(a);
+		bt_rb_stop->setAngularVelocity(a);
 	}
 }
 
@@ -77,7 +101,7 @@ PhysicsManager::PhysicsManager(RenderManager* rm){
 	
 	float* gravity = new float[3];
 	gravity[0] = 0;
-	gravity[1] = -9.8;
+	gravity[1] = -10;
 	gravity[2] = 0;
 	setGravity(gravity);
 	delete[] gravity;
@@ -130,30 +154,57 @@ void PhysicsManager::init(){
 	
 }
 
-void PhysicsManager::createRigidBodies(){
-	AVLTreeIterator<CompoundShape>* it = compound_shapes->tableIterator();
+//void PhysicsManager::createRigidBodies(){
+//	AVLTreeIterator<CompoundShape>* it = compound_shapes->tableIterator();
+//	btCompoundShape* com_shape = 0;
+//	while(it->hasNext()){
+//		CompoundShape* cs = it->next();
+//		SceneNodeMotion* snm = render_manager->createSceneNodeMotion(*(cs->getKey()));
+//		string mstr = "snm";
+//		string* motion_state_str = &mstr;
+//		
+//		BulletSceneNodeMotionState* ms = new BulletSceneNodeMotionState(motion_state_str, snm, render_manager);
+//		btScalar* m = new btScalar(cs->getMass());
+//		com_shape = cs->getCompoundShape();
+//		btVector3* li = new btVector3(0,0,0);
+//		com_shape->calculateLocalInertia(*m, *li);
+//		btRigidBody::btRigidBodyConstructionInfo* rbci = new btRigidBody::btRigidBodyConstructionInfo(*m, ms, com_shape);
+//		btRigidBody* btrb = new btRigidBody(*rbci);
+//		btrb->setDamping(-1,1);
+//		btrb->setActivationState(DISABLE_DEACTIVATION);
+//		RigidBody* rb = new RigidBody(*(cs->getKey()), btrb);
+//		rigid_bodies->tableInsert(rb);
+//		
+//		dynamics_world->addRigidBody(btrb);
+//	}
+//	delete it;
+//}
+
+void PhysicsManager::createRigidBodies() {
+	AVLTreeIterator<CompoundShape>* iter = compound_shapes->tableIterator();
 	btCompoundShape* com_shape = 0;
-	while(it->hasNext()){
-		CompoundShape* cs = it->next();
+
+	while (iter->hasNext()) {
+		CompoundShape* cs = iter->next();
+
 		SceneNodeMotion* snm = render_manager->createSceneNodeMotion(*(cs->getKey()));
-		string mstr = "snm";
-		string* motion_state_str = &mstr;
+		BulletSceneNodeMotionState* ms = new BulletSceneNodeMotionState(cs->getKey(), snm, render_manager);
 		
-		BulletSceneNodeMotionState* ms = new BulletSceneNodeMotionState(motion_state_str, snm, render_manager);
 		btScalar* m = new btScalar(cs->getMass());
 		com_shape = cs->getCompoundShape();
-		btVector3* li = new btVector3(0,0,0);
+		btVector3* li = new btVector3(0, 0, 0);
+
 		com_shape->calculateLocalInertia(*m, *li);
-		btRigidBody::btRigidBodyConstructionInfo* rbci = new btRigidBody::btRigidBodyConstructionInfo(*m, ms, com_shape);
-		btRigidBody* btrb = new btRigidBody(*rbci);
-		btrb->setDamping(-1,1);
-		btrb->setActivationState(DISABLE_DEACTIVATION);
-		RigidBody* rb = new RigidBody(*(cs->getKey()), btrb);
+		btRigidBody::btRigidBodyConstructionInfo* rbci = new btRigidBody::btRigidBodyConstructionInfo(*m, ms, com_shape, *li);
+		btRigidBody* bt_rb = new btRigidBody(*rbci);
+		bt_rb->setDamping(.1, .1);
+		bt_rb->setActivationState(DISABLE_DEACTIVATION);
+		RigidBody* rb = new RigidBody(*(cs->getKey()), bt_rb);
 		rigid_bodies->tableInsert(rb);
-		
-		dynamics_world->addRigidBody(btrb);
+
+		dynamics_world->addRigidBody(bt_rb);
 	}
-	delete it;
+	delete iter;
 }
 
 void PhysicsManager::createCollisionShape(std::string& compound_shape_id, std::string& collision_shape, float* collision_shape_params, float mass, float* translation, float* rotation){
@@ -189,20 +240,16 @@ void PhysicsManager::updateRigidBodies(){
 	
 	for(int i = num_collision_objects -1; i >= 0; i--){
 		btRigidBody* rigid_body = btRigidBody::upcast(rigid_bodies[i]);
-		BulletSceneNodeMotionState* motion_state = (BulletSceneNodeMotionState*) rigid_body;
+		BulletSceneNodeMotionState* motion_state = (BulletSceneNodeMotionState*)rigid_body->getMotionState();
+		SceneNodeMotion* snm = motion_state->getSNM();
 		
 		if(rigid_body && rigid_body->getMotionState()){
 			btTransform current_transform;
+			motion_state->copyNodeTransformIntoBulletTransform();
 			rigid_body->getMotionState()->getWorldTransform(current_transform);
-			//motion_state->copyNodeTransformIntoBulletTransform();
-			void *userPointer = rigid_body->getUserPointer();
-			if(userPointer){
-				cout << "here update" <<endl;
-				btQuaternion orientation = current_transform.getRotation();
-				Ogre::SceneNode *sceneNode = static_cast<Ogre::SceneNode*>(userPointer);
-				sceneNode->setPosition(Ogre::Vector3(current_transform.getOrigin().getX(), current_transform.getOrigin().getY(), current_transform.getOrigin().getZ()));
-				sceneNode->setOrientation(Ogre::Quaternion(orientation.getW(), orientation.getX(), orientation.getY(), orientation.getZ()));
-			}
+			btQuaternion orientation = current_transform.getRotation();
+			render_manager->setPosition(snm, current_transform.getOrigin().getX(), current_transform.getOrigin().getY(), current_transform.getOrigin().getZ());
+			render_manager->setOrientation(snm, orientation.getW(), orientation.getX(), orientation.getY(), orientation.getZ());
 		}
 	}
 }

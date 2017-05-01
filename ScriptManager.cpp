@@ -41,6 +41,7 @@ ScriptManager::ScriptManager(GameManager* gm){
 	luabridge::getGlobalNamespace(L)
 	.beginClass<GameManager>("GameManager")
 		.addFunction("playAudioByName", &GameManager::playAudioByName)
+		.addFunction("jump", &GameManager::jump)
 		.endClass();
 		
 	luabridge::push(L, game_manager);

@@ -7,6 +7,14 @@
 #include <vector>
 #include <iostream>
 
+void GameManager::buttonPressed(std::string button){
+	render_manager->buttonPressed(button);
+}
+
+void GameManager::jump(){
+	render_manager->jump();
+}
+
 void GameManager::createRigidBodies(){
 	render_manager->createRigidBodies();
 }

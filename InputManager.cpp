@@ -170,7 +170,10 @@ std::string InputManager::keyMap(const OIS::KeyEvent& e){
 	return game_key;
 }
 
-bool InputManager::buttonPressed(const OIS::JoyStickEvent&e, int button){return true;}
+bool InputManager::buttonPressed(const OIS::JoyStickEvent&e, int button){
+	std::string buttonStr = joystickButtonMap(button);
+	game_manager->buttonPressed(buttonStr);
+}
 bool InputManager::buttonReleased(const OIS::JoyStickEvent&e, int button){return true;}
 bool InputManager::sliderMoved(const OIS::JoyStickEvent&e, int index){return true;}
 bool InputManager::povMoved(const OIS::JoyStickEvent&e, int index){return true;}

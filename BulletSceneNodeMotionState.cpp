@@ -30,6 +30,10 @@ void BulletSceneNodeMotionState::getWorldTransform(btTransform& current_transfor
    current_transform = bullet_transform;
 }
 
+SceneNodeMotion* BulletSceneNodeMotionState::getSNM(){
+	return scene_node_motion;
+}
+
 //called every frame
 void BulletSceneNodeMotionState::setWorldTransform(const btTransform& current_transform) 
 {

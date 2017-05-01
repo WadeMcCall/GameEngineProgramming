@@ -14,6 +14,14 @@
 #include <iostream>
 using namespace std;
 
+void RenderManager::buttonPressed(std::string button){
+	if(button == "A")
+		jump();
+	if(button == "X")
+		buttonEvent1();
+}
+
+
 struct SceneNodeMotion{
 	Ogre::SceneNode* scene_node_motion;
 };
@@ -110,12 +118,24 @@ void RenderManager::createCollisionShape(std::string& child_name, std::string& s
 	physics_manager->createCollisionShape(child_name, shape_str, params, mass, translation, rotation);
 }
 
+void RenderManager::jump(){
+	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
+	Ogre::Vector3 current_pos = Scene_node->_getDerivedPosition();
+	if(current_pos.y < 2)
+		physics_manager->applyImpulse("WeirdMan Transform", 0, 200, 1);
+}
+
 void RenderManager::createRigidBodies(){
 	physics_manager->createRigidBodies();
 }
 
 void RenderManager::buttonEvent(std::string audioName, int numRepeats){
 	script_manager->buttonEventCallback(audioName, numRepeats, "./assets/lua_scripts/test_script.lua");
+}
+
+
+void RenderManager::buttonEvent1(){
+	physics_manager->clearForces();
 }
 
 void RenderManager::mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button){
@@ -147,25 +167,26 @@ void RenderManager::leftJoystickAxisMoved(float north_south, float east_west){
 	////cout << current_pos.x << " " << current_pos.y << " " << current_pos.z << endl;
 	//current_pos = Ogre::Vector3(current_pos.x + .002*east_west, current_pos.y, current_pos.z +.002*north_south);
 	//Scene_node->_setDerivedPosition(current_pos);
-	physics_manager->applyTorqueImpusle("Trampoline Transform", north_south, east_west, north_south);
+	physics_manager->applyImpulse("WeirdMan Transform", east_west,0,north_south);
 }
 
 void RenderManager::rightJoystickAxisMoved(float north_south, float east_west){
-	Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
-	Ogre::Quaternion current_quat = Scene_node->getOrientation();
-	Ogre::Degree prev_degree;
-	Ogre::Vector3 axis;
-	
-	current_quat.ToAngleAxis(prev_degree, axis);
-	float curr_deg = prev_degree.valueDegrees() + .1*east_west;
-	
-	if(curr_deg < 0) curr_deg = curr_deg + 360.0;
-	if(curr_deg > 360) curr_deg = curr_deg - 360.0;
-	
-	Ogre::Degree curr_degree(curr_deg);
-	
-	Ogre::Quaternion update(curr_degree, axis);
-	Scene_node->setOrientation(update);	
+	//Ogre::SceneNode* Scene_node = scene_manager->getSceneNode("Monkey Entity");
+	//Ogre::Quaternion current_quat = Scene_node->getOrientation();
+	//Ogre::Degree prev_degree;
+	//Ogre::Vector3 axis;
+	//
+	//current_quat.ToAngleAxis(prev_degree, axis);
+	//float curr_deg = prev_degree.valueDegrees() + .1*east_west;
+	//
+	//if(curr_deg < 0) curr_deg = curr_deg + 360.0;
+	//if(curr_deg > 360) curr_deg = curr_deg - 360.0;
+	//
+	//Ogre::Degree curr_degree(curr_deg);
+	//
+	//Ogre::Quaternion update(curr_degree, axis);
+	//Scene_node->setOrientation(update);	
+	physics_manager->applyTorqueImpusle("WeirdMan Transform", north_south, east_west, north_south);
 }
 
 void RenderManager::triggerMoved(float amount){

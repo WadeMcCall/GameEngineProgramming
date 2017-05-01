@@ -24,6 +24,7 @@ class BulletSceneNodeMotionState : public btMotionState
       //required btMotionState methods
       virtual void getWorldTransform(btTransform& worldTrans) const;
       virtual void setWorldTransform(const btTransform& worldTrans);
+	  SceneNodeMotion* getSNM();
 
       void copyBulletTransformIntoNodeTransform();
       void copyNodeTransformIntoBulletTransform();

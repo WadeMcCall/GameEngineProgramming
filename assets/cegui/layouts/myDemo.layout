@@ -9,7 +9,11 @@
 			<Property name="Text" value="Window"/>
 			<Window type="TaharezLook/Button" name="Button">
 				<Property name="Area" value="{{1,-160},{1,-43},{1,-20},{1,-1}}"/>
-				<Property name="Text" value="Double Shine" />
+				<Property name="Text" value="Jump!" />
+			</Window>
+			<Window type="TaharezLook/Button" name="Button1">
+				<Property name="Area" value="{{1,-270},{1,-43},{.5,-50},{1,-1}}"/>
+				<Property name="Text" value="stop!!" />
 			</Window>
 		</Window>
 	</Window>
