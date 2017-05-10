@@ -2,7 +2,6 @@
 #include "AudioPlayer.h"
 #include "AudioResource.h"
 #include "GameManager.h"
-#include "bass.h"
 
 struct AudioResourceInfo{
 	HSAMPLE sample_data;

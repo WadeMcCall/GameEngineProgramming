@@ -7,7 +7,6 @@
 #include "AnimationRenderListener.h"
 #include "InputRenderListener.h"
 #include "GameHeader.h"
-#include "BulletSceneNodeMotionState.h"
 #include "RenderManagerInterface.h"
 
 #include<vector>
@@ -32,8 +31,6 @@ class RenderManager : public RenderManagerInterface
       Ogre::Camera* camera2;
       Ogre::Viewport* viewport;
       Ogre::Viewport* viewport2;
-
-      GameManager* game_manager;
 	  GUIManager* gui_manager;
 	  ScriptManager* script_manager;
 	  PhysicsManager* physics_manager;
@@ -76,8 +73,6 @@ class RenderManager : public RenderManagerInterface
 	  
 	  void mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button);
 	  void mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel);
-
-      Ogre::RenderWindow* getRenderWindow();
 
       void startRendering();
       void stopRendering();

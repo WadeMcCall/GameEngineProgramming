@@ -1,13 +1,11 @@
 #include "RenderManager.h"
 #include "GameManager.h"
-#include "GameHeader.h"
-#include "AnimationRenderListener.h"
-#include "InputRenderListener.h"
-#include "ListArray.h"
-#include "ListArrayIterator.h"
 #include "GUIManager.h"
 #include "ScriptManager.h"
 #include "PhysicsManager.h"
+#include "BulletSceneNodeMotionState.h"
+#include "AnimationRenderListener.h"
+#include "InputRenderListener.h"
 
 #include <math.h>
 #include <vector>
@@ -500,11 +498,6 @@ void RenderManager::stopRendering(){
 		game_manager->logComment("Stopped Rendering");
 	}
 	delete render_listeners_iter;
-}
-
-Ogre::RenderWindow* RenderManager::getRenderWindow()
-{
-   return window;
 }
 
 //void RenderManager::parseResourceXML(const char* file_name){

@@ -1,5 +1,4 @@
 #include "ScriptManager.h"
-#include "RenderManager.h"
 
 void ScriptManager::reset(){
 	inputs->removeAll();

@@ -2,6 +2,10 @@
 #define GAME_MANAGER_INTERFACE
 
 #include <vector>
+#include "GameHeader.h"
+
+struct AudioResourceInfo;
+class AudioResource;
 
 //supplies communication between managers
 class GameManagerInterface

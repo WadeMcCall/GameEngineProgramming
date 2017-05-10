@@ -5,8 +5,8 @@
 #include "CSC2110/TableAVL.h"
 
 class RigidBody;
-class CompoundShape;
 class RenderManager;
+class CompoundShape;
 struct SceneNodeMotion;
 
 class PhysicsManager{

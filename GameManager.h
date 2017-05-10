@@ -9,12 +9,10 @@
 #include "ResourceManager.h"
 #include "AudioResource.h"
 #include "GameManagerInterface.h"
-
-class RenderManager;
-class GUIManager;
+#include "RenderManager.h"
 
 //supplies communication between managers
-class GameManager : GameManagerInterface
+class GameManager : public GameManagerInterface
 {
    private:
       RenderManager* render_manager;

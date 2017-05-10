@@ -6,9 +6,6 @@
 #include<vector>
 
 class GameManager;
-class GUIManager;
-class ScriptManager;
-class PhysicsManager;
 struct SceneNodeManual;
 struct SceneNodeMotion;
 
@@ -49,8 +46,6 @@ class RenderManagerInterface
 	  
 	  virtual void mousePressed(uint32 x_click, uint32 y_click, std::string mouse_button) = 0;
 	  virtual void mouseMoved(uint32 x_click, uint32 y_click, float x_rel, float y_rel) = 0;
-	  
-      virtual Ogre::RenderWindow* getRenderWindow() = 0;
 	  
       virtual void startRendering() = 0;
       virtual void stopRendering() = 0;

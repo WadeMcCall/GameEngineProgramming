@@ -1,11 +1,11 @@
 #include "PhysicsManager.h"
-#include "RenderManager.h"
 #include "BulletSceneNodeMotionState.h"
 #include "BulletDebugDrawer.h"
 #include "RigidBody.h"
 #include "CompoundShape.h"
 #include "CompareRigidBodies.h"
 #include "CompareCompoundShapes.h"
+#include "RenderManager.h"
 
 #include <iostream>
 

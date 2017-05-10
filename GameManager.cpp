@@ -1,10 +1,7 @@
 #include "GameManager.h"
-#include "RenderManager.h"
 #include "AudioResource.h"
 #include "ListArray.h"
-#include "Ogre.h"
 
-#include <vector>
 #include <iostream>
 
 void GameManager::buttonPressed(std::string button){
@@ -143,7 +140,6 @@ void GameManager::loadLevel(std::string level_name){
 }
 
 void GameManager::addPathResource(std::string path, std::string level_name){
-	std::cout << std::endl << "im right here!";
 	logComment("addingpathResource from game manager");
 	render_manager->addPathResource(path, level_name);
 }
